@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <UserSecretsId>3c867a64-f8b7-416e-bcd1-b79de9bf6a79</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.19.5" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DrivingSchool.BusinessLogic\DrivingSchool.BusinessLogic.csproj" />
+    <ProjectReference Include="..\DrivingSchool.Core\DrivingSchool.Core.csproj" />
+    <ProjectReference Include="..\DrivingSchool.DataAccess\DrivingSchool.DataAccess.csproj" />
+  </ItemGroup>
+
+</Project>
