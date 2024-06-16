@@ -18,20 +18,7 @@ namespace DrivingSchool.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<List<UserModel>> GetUsers()
-        {
-            var usersEntities = await _context.Users
-                .AsNoTracking()
-                .ToListAsync();
-
-            var users = usersEntities
-                .Select(u => UserModel.Create(u.IdUser, u.UserName, u.Email, u.Password, u.Role).user)
-                .ToList();
-
-            return users;
-        }
-
-        public async Task<Guid> CreateUser(UserModel user)
+        public async Task<Guid> Create(UserModel user)
         {
             var userEntity = new UserEntity
             {
@@ -48,7 +35,20 @@ namespace DrivingSchool.DataAccess.Repositories
             return userEntity.IdUser;
         }
 
-        public async Task<Guid> UpdateUser(Guid idUser, string username, string email, string password, string role)
+        public async Task<List<UserModel>> Get()
+        {
+            var usersEntities = await _context.Users
+                .AsNoTracking()
+                .ToListAsync();
+
+            var users = usersEntities
+                .Select(u => UserModel.Create(u.IdUser, u.UserName, u.Email, u.Password, u.Role).user)
+                .ToList();
+
+            return users;
+        }
+
+        public async Task<Guid> Update(Guid idUser, string username, string email, string password, string role)
         {
             await _context.Users
                .Where(u => u.IdUser == idUser)
@@ -62,15 +62,11 @@ namespace DrivingSchool.DataAccess.Repositories
             return idUser;
         }
 
-        public async Task<Guid> DeleteUser(Guid idUser)
+        public async Task<Guid> Delete(Guid idUser)
         {
-            UserEntity? userEntity = await _context.Users.FirstOrDefaultAsync(u => u.IdUser == idUser);
-
-            if (userEntity != null)
-            {
-                _context.Users.Remove(userEntity);
-                await _context.SaveChangesAsync(); // Save the changes to the database
-            }
+            await _context.Users
+                .Where(u => u.IdUser == idUser)
+                .ExecuteDeleteAsync();
 
             return idUser;
         }

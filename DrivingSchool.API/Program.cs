@@ -3,6 +3,7 @@ using DrivingSchool.Core.Abstractions;
 using DrivingSchool.DataAccess.Repositories;
 using DrivingSchool.DataAccess;
 using Microsoft.EntityFrameworkCore;
+using DrivingSchool.BusinessLogic.CategoryServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,9 @@ builder.Services.AddDbContext<DrivingSchoolDbContext>(options =>
 
 builder.Services.AddScoped<IUsersServices, UsersServices>();
 builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+
+builder.Services.AddScoped<ICategoryServices, CategoryServices>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 var app = builder.Build();
 
