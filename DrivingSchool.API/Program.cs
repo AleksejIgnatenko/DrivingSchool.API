@@ -4,6 +4,7 @@ using DrivingSchool.DataAccess.Repositories;
 using DrivingSchool.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using DrivingSchool.BusinessLogic.CategoryServices;
+using DrivingSchool.BusinessLogic.TestServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,9 @@ builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 builder.Services.AddScoped<ICategoryServices, CategoryServices>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+
+builder.Services.AddScoped<ITestServices, TestServices>();
+builder.Services.AddScoped<ITestRepository, TestRepository>();
 
 var app = builder.Build();
 

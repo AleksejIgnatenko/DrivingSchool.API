@@ -6,19 +6,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DrivingSchool.Core.Models;
 
 namespace DrivingSchool.DataAccess.Configurations
 {
-    public class CategoryConfiguration : IEntityTypeConfiguration<CategoryEntity>
+    public class TestConfiguration : IEntityTypeConfiguration<TestEntity>
     {
-        public void Configure(EntityTypeBuilder<CategoryEntity> builder)
+        public void Configure(EntityTypeBuilder<TestEntity> builder)
         {
-            builder.HasKey(c => c.IdCategory);
+            builder.HasKey(t => t.IdTest);
 
-            builder.Property(c => c.NameCategory)
-                    .IsRequired();
+            builder.Property(t => t.Category)
+                .IsRequired();
 
+            builder.Property(t => t.NameTest)
+                .IsRequired();
         }
     }
 }

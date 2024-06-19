@@ -1,10 +1,6 @@
 ﻿using DrivingSchool.API.Contracts.CategoryContracts;
-using DrivingSchool.API.Contracts.UserContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
-using DrivingSchool.BusinessLogic.UserServices;
-using DrivingSchool.Core.Abstractions;
 using DrivingSchool.Core.Models;
-using DrivingSchool.DataAccess.Repositories;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchool.API.Controllers

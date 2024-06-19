@@ -23,8 +23,8 @@ namespace DrivingSchool.Core.Models
         public static (CategoryModel category, string error) Create(Guid idCategory, string? nameCategory)
         {
             string error = string.Empty;
-            CategoryModel user = new CategoryModel(idCategory, nameCategory);
-            return (user, error);
+            CategoryModel category = new CategoryModel(idCategory, nameCategory);
+            return (category, error);
         }
     }
 }

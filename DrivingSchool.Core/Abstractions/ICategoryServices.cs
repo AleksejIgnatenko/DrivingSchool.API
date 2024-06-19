@@ -7,6 +7,7 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
         Task<Guid> CreateCategory(CategoryModel category);
         Task<Guid> DeleteCategory(Guid idCategory);
         Task<List<CategoryModel>> GetAllCategory();
+        CategoryModel? GetCategoryById(Guid idCategory);
         Task<Guid> UpdateCategory(Guid idCategory, string? nameCategory);
     }
 }
