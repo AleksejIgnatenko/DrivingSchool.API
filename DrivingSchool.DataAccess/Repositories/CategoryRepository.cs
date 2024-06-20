@@ -23,7 +23,7 @@ namespace DrivingSchool.DataAccess.Repositories
             CategoryEntity categoryEntity = new CategoryEntity
             {
                 IdCategory = category.IdCategory,
-                NameCategory = category.NameCategory 
+                NameCategory = category.NameCategory
             };
 
             await _context.Categories.AddAsync(categoryEntity);
@@ -45,14 +45,20 @@ namespace DrivingSchool.DataAccess.Repositories
             return categories;
         }
 
-        public CategoryModel? Get(Guid id)
+        public async Task<CategoryModel> Get(Guid id)
         {
-            var categoryEntities = _context.Categories
-                .FirstOrDefault(c => c.IdCategory == id);
 
-            var category = CategoryModel.Create(categoryEntities.IdCategory, categoryEntities.NameCategory).category;
+            var categories = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
 
-            return category;
+            if (categories != null)
+            {
+                var category = CategoryModel.Create(categories.IdCategory, categories.NameCategory).category;
+                return category;
+            }
+            else
+            {
+                throw new Exception("Категория не найдена.");
+            }
         }
 
         public async Task<Guid> Update(Guid idCategory, string? nameCategory)

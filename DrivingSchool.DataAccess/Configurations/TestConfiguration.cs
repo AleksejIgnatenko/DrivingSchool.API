@@ -14,12 +14,6 @@ namespace DrivingSchool.DataAccess.Configurations
         public void Configure(EntityTypeBuilder<TestEntity> builder)
         {
             builder.HasKey(t => t.IdTest);
-
-            builder.Property(t => t.Category)
-                .IsRequired();
-
-            builder.Property(t => t.NameTest)
-                .IsRequired();
         }
     }
 }

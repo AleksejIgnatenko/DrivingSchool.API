@@ -10,6 +10,6 @@ namespace DrivingSchool.DataAccess.Entities
     {
         public Guid IdCategory { get; set; }
         public string? NameCategory { get; set; }
-/*        public List<TestEntity>? TestEntities { get; set; }*/
+        public List<TestEntity>? TestEntities { get; set; }
     }
 }

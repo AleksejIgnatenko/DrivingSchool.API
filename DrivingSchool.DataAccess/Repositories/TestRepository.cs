@@ -21,11 +21,23 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<Guid> Create(TestModel test)
         {
-            CategoryEntity categoryEntity = new CategoryEntity
+            var existingCategory = await _context.Categories
+                .FirstOrDefaultAsync(c => c.IdCategory == test.Category.IdCategory);
+
+            CategoryEntity categoryEntity;
+
+            if (existingCategory != null)
             {
-                IdCategory = test.Category.IdCategory,
-                NameCategory = test.Category.NameCategory
-            };
+                categoryEntity = existingCategory;
+            }
+            else
+            {
+                categoryEntity = new CategoryEntity
+                {
+                    IdCategory = test.Category.IdCategory,
+                    NameCategory = test.Category.NameCategory
+                };
+            }
 
             TestEntity testEntity = new TestEntity
             {
@@ -69,10 +81,10 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<Guid> Update(Guid id, CategoryModel? category, string? nameTest)
         {
-            CategoryEntity categoryEntity = new CategoryEntity 
-            { 
-                IdCategory = category.IdCategory, 
-                NameCategory = category.NameCategory 
+            CategoryEntity categoryEntity = new CategoryEntity
+            {
+                IdCategory = category.IdCategory,
+                NameCategory = category.NameCategory
             };
 
             await _context.Tests

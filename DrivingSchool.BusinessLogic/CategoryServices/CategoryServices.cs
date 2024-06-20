@@ -23,9 +23,9 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
             return await _categoryRepository.Get();
         }
 
-        public CategoryModel? GetCategoryById(Guid idCategory)
+        public async Task<CategoryModel> GetCategoryById(Guid idCategory)
         {
-            return _categoryRepository.Get(idCategory);
+            return await _categoryRepository.Get(idCategory);
         }
 
         public async Task<Guid> CreateCategory(CategoryModel category)

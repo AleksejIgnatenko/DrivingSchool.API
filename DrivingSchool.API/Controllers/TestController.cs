@@ -35,9 +35,9 @@ namespace DrivingSchool.API.Controllers
         {
             var (test, error) = TestModel.Create(
                 Guid.NewGuid(),
-                _categoryServices.GetCategoryById(testRequest.IdCategory),
+                await _categoryServices.GetCategoryById(testRequest.IdCategory),
                 testRequest.NameTest
-                );
+            );
 
             if (!string.IsNullOrEmpty(error))
             {
@@ -52,7 +52,7 @@ namespace DrivingSchool.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateTest(Guid id, [FromBody] TestRequest testRequest)
         {
-            var category = _categoryServices.GetCategoryById(testRequest.IdCategory);
+            var category = await _categoryServices.GetCategoryById(testRequest.IdCategory);
 
             var testId = await _testServices.UpdateTest(id, category, testRequest.NameTest);
 
