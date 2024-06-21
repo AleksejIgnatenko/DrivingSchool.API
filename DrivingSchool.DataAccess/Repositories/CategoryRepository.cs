@@ -22,24 +22,42 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             CategoryEntity categoryEntity = new CategoryEntity
             {
-                IdCategory = category.IdCategory,
+                Id = category.Id,
                 NameCategory = category.NameCategory
             };
 
             await _context.Categories.AddAsync(categoryEntity);
             await _context.SaveChangesAsync();
 
-            return categoryEntity.IdCategory;
+            return categoryEntity.Id;
         }
 
         public async Task<List<CategoryModel>> Get()
         {
             var categoryEntities = await _context.Categories
                 .AsNoTracking()
+                .Include(c => c.TestEntities)
                 .ToListAsync();
 
+/*            foreach (var categoryEntity in categoryEntities) 
+            {
+                Console.WriteLine(categoryEntity.NameCategory);
+                if (categoryEntity.NameCategory != null)
+                {
+                    foreach (var item in categoryEntity.TestEntities)
+                    {
+                        Console.WriteLine(item.NameTest);
+                    }
+                }
+            }*/
+
             var categories = categoryEntities
-                .Select(c => CategoryModel.Create(c.IdCategory, c.NameCategory).category)
+                .Select(c => CategoryModel.Create(
+                    c.Id, 
+                    c.NameCategory, 
+                    c.TestEntities
+                        .Select(t => TestModel.Create(t.Id, CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category, 
+                        t.NameTest).test).ToList()).category)
                 .ToList();
 
             return categories;
@@ -48,11 +66,11 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<CategoryModel> Get(Guid id)
         {
 
-            var categories = await _context.Categories.FirstOrDefaultAsync(c => c.IdCategory == id);
+            var categories = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
             if (categories != null)
             {
-                var category = CategoryModel.Create(categories.IdCategory, categories.NameCategory).category;
+                var category = CategoryModel.Create(categories.Id, categories.NameCategory).category;
                 return category;
             }
             else
@@ -64,7 +82,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Update(Guid idCategory, string? nameCategory)
         {
             await _context.Categories
-                .Where(c => c.IdCategory == idCategory)
+                .Where(c => c.Id == idCategory)
                 .ExecuteUpdateAsync(c => c
                 .SetProperty(c => c.NameCategory, nameCategory));
 
@@ -74,7 +92,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Delete(Guid id)
         {
             await _context.Categories
-                .Where(c => c.IdCategory == id)
+                .Where(c => c.Id == id)
                 .ExecuteDeleteAsync();
 
             return id;

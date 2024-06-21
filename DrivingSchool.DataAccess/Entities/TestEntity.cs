@@ -8,7 +8,7 @@ namespace DrivingSchool.DataAccess.Entities
 {
 	public class TestEntity
 	{
-		public Guid IdTest { get; set; }
+		public Guid Id { get; set; }
 		public CategoryEntity? Category { get; set; }
 		public string? NameTest { get; set; }
 	}

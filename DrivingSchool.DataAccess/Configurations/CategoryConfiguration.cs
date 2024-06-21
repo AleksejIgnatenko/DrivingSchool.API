@@ -14,7 +14,7 @@ namespace DrivingSchool.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CategoryEntity> builder)
         {
-            builder.HasKey(c => c.IdCategory);
+            builder.HasKey(c => c.Id);
 
             builder.Property(c => c.NameCategory)
                     .IsRequired();

@@ -22,7 +22,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Create(TestModel test)
         {
             var existingCategory = await _context.Categories
-                .FirstOrDefaultAsync(c => c.IdCategory == test.Category.IdCategory);
+                .FirstOrDefaultAsync(c => c.Id == test.Category.Id);
 
             CategoryEntity categoryEntity;
 
@@ -34,14 +34,14 @@ namespace DrivingSchool.DataAccess.Repositories
             {
                 categoryEntity = new CategoryEntity
                 {
-                    IdCategory = test.Category.IdCategory,
+                    Id = test.Category.Id,
                     NameCategory = test.Category.NameCategory
                 };
             }
 
             TestEntity testEntity = new TestEntity
             {
-                IdTest = test.IdTest,
+                Id = test.Id,
                 Category = categoryEntity,
                 NameTest = test.NameTest
             };
@@ -49,7 +49,7 @@ namespace DrivingSchool.DataAccess.Repositories
             await _context.Tests.AddAsync(testEntity);
             await _context.SaveChangesAsync();
 
-            return testEntity.IdTest;
+            return testEntity.Id;
         }
 
         public async Task<List<TestModel>> Get()
@@ -59,7 +59,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToListAsync();
 
             var tests = testEntity
-                .Select(t => TestModel.Create(t.IdTest, (CategoryModel.Create(t.Category.IdCategory, t.Category.NameCategory).category), t.NameTest).test)
+                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.NameTest).test)
                 .ToList();
 
             return tests;
@@ -68,11 +68,11 @@ namespace DrivingSchool.DataAccess.Repositories
         public TestModel? GetById(Guid id)
         {
             var testEntity = _context.Tests
-                .FirstOrDefault(t => t.IdTest == id);
+                .FirstOrDefault(t => t.Id == id);
 
             if (testEntity != null)
             {
-                TestModel test = TestModel.Create(testEntity.IdTest, (CategoryModel.Create(testEntity.Category.IdCategory, testEntity.Category.NameCategory).category), testEntity.NameTest).test;
+                TestModel test = TestModel.Create(testEntity.Id, (CategoryModel.Create(testEntity.Category.Id, testEntity.Category.NameCategory).category), testEntity.NameTest).test;
                 return test;
             }
 
@@ -83,12 +83,12 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             CategoryEntity categoryEntity = new CategoryEntity
             {
-                IdCategory = category.IdCategory,
+                Id = category.Id,
                 NameCategory = category.NameCategory
             };
 
             await _context.Tests
-                .Where(t => t.IdTest == id)
+                .Where(t => t.Id == id)
                 .ExecuteUpdateAsync(t => t
                 .SetProperty(t => t.Category, categoryEntity)
                 .SetProperty(t => t.NameTest, nameTest));
@@ -99,7 +99,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Delete(Guid id)
         {
             await _context.Tests
-                .Where(t => t.IdTest == id)
+                .Where(t => t.Id == id)
                 .ExecuteDeleteAsync();
 
             return id;

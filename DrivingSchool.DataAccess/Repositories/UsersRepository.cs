@@ -22,7 +22,7 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             var userEntity = new UserEntity
             {
-                IdUser = user.IdUser,
+                Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
                 Password = user.Password,
@@ -32,7 +32,7 @@ namespace DrivingSchool.DataAccess.Repositories
             await _context.Users.AddAsync(userEntity);
             await _context.SaveChangesAsync();
 
-            return userEntity.IdUser;
+            return userEntity.Id;
         }
 
         public async Task<List<UserModel>> Get()
@@ -42,7 +42,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToListAsync();
 
             var users = usersEntities
-                .Select(u => UserModel.Create(u.IdUser, u.UserName, u.Email, u.Password, u.Role).user)
+                .Select(u => UserModel.Create(u.Id, u.UserName, u.Email, u.Password, u.Role).user)
                 .ToList();
 
             return users;
@@ -51,7 +51,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Update(Guid idUser, string username, string email, string password, string role)
         {
             await _context.Users
-               .Where(u => u.IdUser == idUser)
+               .Where(u => u.Id == idUser)
                .ExecuteUpdateAsync(u => u
                    .SetProperty(u => u.UserName, username)
                    .SetProperty(u => u.Email, email)
@@ -65,7 +65,7 @@ namespace DrivingSchool.DataAccess.Repositories
         public async Task<Guid> Delete(Guid idUser)
         {
             await _context.Users
-                .Where(u => u.IdUser == idUser)
+                .Where(u => u.Id == idUser)
                 .ExecuteDeleteAsync();
 
             return idUser;

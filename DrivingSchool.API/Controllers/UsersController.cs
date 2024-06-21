@@ -20,7 +20,7 @@ namespace DrivingSchool.API.Controllers
         {
             var users = await _usersServices.GetAllUsers();
 
-            var response = users.Select(u => new UsersResponse(u.IdUser, u.UserName, u.Email, u.Password, u.Role));
+            var response = users.Select(u => new UsersResponse(u.Id, u.UserName, u.Email, u.Password, u.Role));
 
             return Ok(response);
         }

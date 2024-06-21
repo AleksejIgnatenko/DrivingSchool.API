@@ -13,7 +13,7 @@ namespace DrivingSchool.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<UserEntity> builder)
         {
-            builder.HasKey(u => u.IdUser);
+            builder.HasKey(u => u.Id);
 
             builder.Property(u => u.UserName)
                     .IsRequired();

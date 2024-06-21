@@ -25,7 +25,7 @@ namespace DrivingSchool.API.Controllers
         {
             var tests = await _testServices.GetAllTest();
 
-            var response = tests.Select(t => new TestResponse(t.IdTest, t.Category.NameCategory, t.NameTest));
+            var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest));
 
             return Ok(response);
         }

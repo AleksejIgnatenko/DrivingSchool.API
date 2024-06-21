@@ -8,7 +8,7 @@ namespace DrivingSchool.Core.Models
 {
     public class UserModel
     {
-        public Guid IdUser { get; }
+        public Guid Id { get; }
         public string UserName { get; } = string.Empty;
         public string Email { get; } = string.Empty;
         public string Password { get; } = string.Empty;
@@ -16,7 +16,7 @@ namespace DrivingSchool.Core.Models
 
         private UserModel(Guid idUser, string userName, string email, string password, string role)
         {
-            IdUser = idUser;
+            Id = idUser;
             UserName = userName;
             Email = email;
             Password = password;

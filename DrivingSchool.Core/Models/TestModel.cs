@@ -8,13 +8,13 @@ namespace DrivingSchool.Core.Models
 {
 	public class TestModel
 	{
-		public Guid IdTest { get; }
+		public Guid Id { get; }
 		public CategoryModel? Category { get; }
 		public string? NameTest { get; }
 
         private TestModel(Guid id, CategoryModel? category, string? nameTest)
         {
-			IdTest = id;
+			Id = id;
 			Category = category;
 			NameTest = nameTest;
         }
