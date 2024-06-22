@@ -52,9 +52,8 @@ namespace DrivingSchool.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateTest(Guid id, [FromBody] TestRequest testRequest)
         {
-            var category = await _categoryServices.GetCategoryById(testRequest.IdCategory);
 
-            var testId = await _testServices.UpdateTest(id, category, testRequest.NameTest);
+            var testId = await _testServices.UpdateTest(id, testRequest.IdCategory, testRequest.NameTest);
 
             return Ok(testId);
         }

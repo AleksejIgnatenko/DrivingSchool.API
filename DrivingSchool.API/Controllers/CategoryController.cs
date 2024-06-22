@@ -21,7 +21,7 @@ namespace DrivingSchool.API.Controllers
         {
             var category = await _categoryServices.GetAllCategory();
 
-            var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory));
+            var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory, c.Tests.ToDictionary(t => t.Id, t=> t.NameTest)));
 
             return Ok(response);
         }

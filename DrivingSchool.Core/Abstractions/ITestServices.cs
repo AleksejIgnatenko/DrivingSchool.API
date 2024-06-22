@@ -7,6 +7,6 @@ namespace DrivingSchool.BusinessLogic.TestServices
         Task<Guid> CreateTest(TestModel test);
         Task<Guid> DeleteTest(Guid id);
         Task<List<TestModel>> GetAllTest();
-        Task<Guid> UpdateTest(Guid id, CategoryModel? category, string? nameTest);
+        Task<Guid> UpdateTest(Guid id, Guid categoryId, string? nameTest);
     }
 }

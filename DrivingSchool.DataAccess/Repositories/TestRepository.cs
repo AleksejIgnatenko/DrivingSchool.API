@@ -56,6 +56,7 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             var testEntity = await _context.Tests
                 .AsNoTracking()
+                .Include(t => t.Category)
                 .ToListAsync();
 
             var tests = testEntity
@@ -79,21 +80,22 @@ namespace DrivingSchool.DataAccess.Repositories
             return null;
         }
 
-        public async Task<Guid> Update(Guid id, CategoryModel? category, string? nameTest)
+        public async Task<Guid> Update(Guid id, Guid categoryId, string? nameTest)
         {
-            CategoryEntity categoryEntity = new CategoryEntity
+            var testEntity = await _context.Tests.FindAsync(id);
+            var categoryEntity = await _context.Categories.FindAsync(categoryId);
+
+            if ((testEntity != null) && (categoryEntity != null))
             {
-                Id = category.Id,
-                NameCategory = category.NameCategory
-            };
+                testEntity.Category = categoryEntity;
+                testEntity.NameTest = nameTest;
 
-            await _context.Tests
-                .Where(t => t.Id == id)
-                .ExecuteUpdateAsync(t => t
-                .SetProperty(t => t.Category, categoryEntity)
-                .SetProperty(t => t.NameTest, nameTest));
+                await _context.SaveChangesAsync();
 
-            return id;
+                return id;
+            }
+
+            throw new Exception("Error for update test");
         }
 
         public async Task<Guid> Delete(Guid id)

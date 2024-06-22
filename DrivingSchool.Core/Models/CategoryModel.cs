@@ -13,7 +13,7 @@ namespace DrivingSchool.Core.Models
     {
         public Guid Id { get; }
         public string? NameCategory { get; }
-        List<TestModel>? Tests { get; }
+        public List<TestModel>? Tests { get; }
 
         private CategoryModel(Guid idCategory, string? nameCategory)
         {

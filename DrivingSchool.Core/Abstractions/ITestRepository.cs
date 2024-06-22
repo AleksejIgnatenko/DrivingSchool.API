@@ -8,6 +8,6 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<Guid> Delete(Guid id);
         Task<List<TestModel>> Get();
         TestModel? GetById(Guid id);
-        Task<Guid> Update(Guid id, CategoryModel? category, string? nameTest);
+        Task<Guid> Update(Guid id, Guid categoryId, string? nameTest);
     }
 }

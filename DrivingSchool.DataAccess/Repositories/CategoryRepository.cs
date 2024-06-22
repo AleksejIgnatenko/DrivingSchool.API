@@ -51,7 +51,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 }
             }*/
 
-            var categories = categoryEntities
+            List<CategoryModel> categories = categoryEntities
                 .Select(c => CategoryModel.Create(
                     c.Id, 
                     c.NameCategory, 

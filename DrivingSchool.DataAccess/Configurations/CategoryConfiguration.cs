@@ -18,7 +18,6 @@ namespace DrivingSchool.DataAccess.Configurations
 
             builder.Property(c => c.NameCategory)
                     .IsRequired();
-
         }
     }
 }
