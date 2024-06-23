@@ -17,6 +17,11 @@ namespace DrivingSchool.BusinessLogic.TestServices
             return await _testRepository.Get();
         }
 
+        public TestModel? GetTestById(Guid id)
+        {
+            return _testRepository.Get(id);
+        }
+
 
         public async Task<Guid> CreateTest(TestModel test)
         {

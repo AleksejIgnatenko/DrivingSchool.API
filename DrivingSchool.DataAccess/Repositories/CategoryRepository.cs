@@ -1,11 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrivingSchool.DataAccess.Repositories
 {
@@ -36,27 +31,27 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             var categoryEntities = await _context.Categories
                 .AsNoTracking()
-                .Include(c => c.TestEntities)
+                .Include(c => c.Tests)
                 .ToListAsync();
 
-/*            foreach (var categoryEntity in categoryEntities) 
-            {
-                Console.WriteLine(categoryEntity.NameCategory);
-                if (categoryEntity.NameCategory != null)
-                {
-                    foreach (var item in categoryEntity.TestEntities)
-                    {
-                        Console.WriteLine(item.NameTest);
-                    }
-                }
-            }*/
+            /*            foreach (var categoryEntity in categoryEntities) 
+                        {
+                            Console.WriteLine(categoryEntity.NameCategory);
+                            if (categoryEntity.NameCategory != null)
+                            {
+                                foreach (var item in categoryEntity.TestEntities)
+                                {
+                                    Console.WriteLine(item.NameTest);
+                                }
+                            }
+                        }*/
 
             List<CategoryModel> categories = categoryEntities
                 .Select(c => CategoryModel.Create(
-                    c.Id, 
-                    c.NameCategory, 
-                    c.TestEntities
-                        .Select(t => TestModel.Create(t.Id, CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category, 
+                    c.Id,
+                    c.NameCategory,
+                    c.Tests
+                        .Select(t => TestModel.Create(t.Id, CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category,
                         t.NameTest).test).ToList()).category)
                 .ToList();
 
@@ -65,7 +60,6 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<CategoryModel> Get(Guid id)
         {
-
             var categories = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
             if (categories != null)
@@ -73,10 +67,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 var category = CategoryModel.Create(categories.Id, categories.NameCategory).category;
                 return category;
             }
-            else
-            {
-                throw new Exception("Категория не найдена.");
-            }
+            throw new Exception("Категория не найдена.");
         }
 
         public async Task<Guid> Update(Guid idCategory, string? nameCategory)

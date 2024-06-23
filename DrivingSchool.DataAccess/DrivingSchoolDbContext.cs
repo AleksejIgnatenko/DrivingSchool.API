@@ -1,11 +1,6 @@
 ﻿using DrivingSchool.DataAccess.Configurations;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrivingSchool.DataAccess
 {
@@ -14,6 +9,7 @@ namespace DrivingSchool.DataAccess
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<TestEntity> Tests { get; set; }
+        public DbSet<QuestionEntity> Questions { get; set; }
 
         public DrivingSchoolDbContext(DbContextOptions<DrivingSchoolDbContext> options) : base(options)
         {
@@ -25,6 +21,7 @@ namespace DrivingSchool.DataAccess
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new TestConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionConfiguration());
         }
     }
 }

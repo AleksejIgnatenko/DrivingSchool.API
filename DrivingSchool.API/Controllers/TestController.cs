@@ -1,7 +1,6 @@
 ﻿using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
-using DrivingSchool.Core.Abstractions;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,11 +20,11 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TestResponse>>> GetUsers()
+        public async Task<ActionResult<List<TestResponse>>> GetTest()
         {
             var tests = await _testServices.GetAllTest();
 
-            var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest));
+            var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest, t.Questions.ToDictionary(q => q.Id, q => q.QuestionText)));
 
             return Ok(response);
         }

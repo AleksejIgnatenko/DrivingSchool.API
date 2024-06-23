@@ -29,7 +29,7 @@ namespace DrivingSchool.API.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateCategory([FromBody] CategoryRequest categoryRequest)
         {
-            var (user, error) = CategoryModel.Create(
+            var (category, error) = CategoryModel.Create(
                 Guid.NewGuid(),
                 categoryRequest.NameCategory
             );
@@ -39,7 +39,7 @@ namespace DrivingSchool.API.Controllers
                 return BadRequest(error);
             }
 
-            var categoryId = await _categoryServices.CreateCategory(user);
+            var categoryId = await _categoryServices.CreateCategory(category);
 
             return Ok(categoryId);
         }

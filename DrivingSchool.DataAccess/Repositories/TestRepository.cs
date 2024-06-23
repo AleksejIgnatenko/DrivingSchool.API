@@ -1,12 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DrivingSchool.DataAccess.Repositories
 {
@@ -57,13 +51,26 @@ namespace DrivingSchool.DataAccess.Repositories
             var testEntity = await _context.Tests
                 .AsNoTracking()
                 .Include(t => t.Category)
+                .Include(t => t.Questions)
                 .ToListAsync();
 
             var tests = testEntity
-                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.NameTest).test)
+                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.NameTest, t.Questions.Select(q => QuestionModel.Create(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer).question).ToList()).test)
                 .ToList();
 
             return tests;
+        }
+
+        public TestModel? Get(Guid id)
+        {
+            var testEntity = _context.Tests.FirstOrDefault(t => t.Id == id);
+
+            if (testEntity != null)
+            {
+                var test = TestModel.Create(testEntity.Id, testEntity.NameTest).test;
+                return test;
+            }
+            throw new Exception("Тест не найдена.");
         }
 
         public TestModel? GetById(Guid id)

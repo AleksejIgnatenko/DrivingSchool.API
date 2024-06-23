@@ -3,6 +3,7 @@
     public record TestResponse(
         Guid IdTest,
         string? NameCategory,
-        string? NameTest
+        string? NameTest,
+        Dictionary<Guid, string?> Questions
         );
 }
