@@ -2,7 +2,7 @@
 namespace DrivingSchool.API.Contracts.CategoryContracts
 {
     public record CategoryResponse(
-        Guid IdUser,
+        Guid Id,
         string? NameCategory,
         Dictionary<Guid, string?> Tests
     );
