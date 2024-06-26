@@ -1,5 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.MockData.Repositories
 {
@@ -7,6 +8,17 @@ namespace DrivingSchool.MockData.Repositories
     {
         public void Dispose()
         {
+        }
+
+        public async Task<Guid> CreateAsync(CategoryModel category)
+        {
+            CategoryEntity categoryEntity = new CategoryEntity
+            {
+                Id = category.Id,
+                NameCategory = category.NameCategory
+            };
+
+            return await Task.FromResult(categoryEntity.Id);
         }
 
         public async Task<List<CategoryModel>> GetAsync()
@@ -91,6 +103,16 @@ namespace DrivingSchool.MockData.Repositories
             }
 
             throw new Exception("Категория не найдена.");
+        }
+
+        public async Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory)
+        {
+            return await Task.FromResult(idCategory);
+        }
+
+        public async Task<Guid> DeleteAsync(Guid id)
+        {
+            return await Task.FromResult(id);
         }
     }
 }
