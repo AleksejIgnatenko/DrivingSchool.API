@@ -13,7 +13,7 @@ namespace DrivingSchool.DataAccess.Repositories
             this._context = context;
         }
 
-        public async Task<Guid> Create(TestModel test)
+        public async Task<Guid> CreateAsync(TestModel test)
         {
             var existingCategory = await _context.Categories
                 .FirstOrDefaultAsync(c => c.Id == test.Category.Id);
@@ -46,7 +46,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return testEntity.Id;
         }
 
-        public async Task<List<TestModel>> Get()
+        public async Task<List<TestModel>> GetAsync()
         {
             var testEntity = await _context.Tests
                 .AsNoTracking()
@@ -61,22 +61,10 @@ namespace DrivingSchool.DataAccess.Repositories
             return tests;
         }
 
-        public TestModel? Get(Guid id)
+        public async Task<TestModel> GetByIdAsync(Guid id)
         {
-            var testEntity = _context.Tests.FirstOrDefault(t => t.Id == id);
-
-            if (testEntity != null)
-            {
-                var test = TestModel.Create(testEntity.Id, testEntity.NameTest).test;
-                return test;
-            }
-            throw new Exception("Тест не найдена.");
-        }
-
-        public TestModel? GetById(Guid id)
-        {
-            var testEntity = _context.Tests
-                .FirstOrDefault(t => t.Id == id);
+            var testEntity = await _context.Tests
+                .FirstOrDefaultAsync(t => t.Id == id);
 
             if (testEntity != null)
             {
@@ -84,10 +72,10 @@ namespace DrivingSchool.DataAccess.Repositories
                 return test;
             }
 
-            return null;
+            throw new Exception("Error search by id");
         }
 
-        public async Task<Guid> Update(Guid id, Guid categoryId, string? nameTest)
+        public async Task<Guid> UpdateAsync(Guid id, Guid categoryId, string? nameTest)
         {
             var testEntity = await _context.Tests.FindAsync(id);
             var categoryEntity = await _context.Categories.FindAsync(categoryId);
@@ -105,7 +93,7 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Error for update test");
         }
 
-        public async Task<Guid> Delete(Guid id)
+        public async Task<Guid> DeleteAsync(Guid id)
         {
             await _context.Tests
                 .Where(t => t.Id == id)

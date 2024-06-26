@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="JetBrains.dotMemoryUnit" Version="3.2.20220510" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
     <PackageReference Include="Moq" Version="4.20.70" />
     <PackageReference Include="NUnit" Version="4.1.0" />
@@ -23,6 +24,7 @@
     <ProjectReference Include="..\DrivingSchool.BusinessLogic\DrivingSchool.BusinessLogic.csproj" />
     <ProjectReference Include="..\DrivingSchool.Core\DrivingSchool.Core.csproj" />
     <ProjectReference Include="..\DrivingSchool.DataAccess\DrivingSchool.DataAccess.csproj" />
+    <ProjectReference Include="..\DrivingSchool.MockData\DrivingSchool.MockData.csproj" />
   </ItemGroup>
 
   <ItemGroup>

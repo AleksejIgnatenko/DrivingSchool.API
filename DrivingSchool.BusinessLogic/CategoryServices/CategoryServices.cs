@@ -12,30 +12,30 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
             this._categoryRepository = categoryRepository;
         }
 
-        public async Task<List<CategoryModel>> GetAllCategory()
+        public async Task<List<CategoryModel>> GetAllCategoryAsync()
         {
-            return await _categoryRepository.Get();
+            return await _categoryRepository.GetAsync();
         }
 
-        public async Task<CategoryModel> GetCategoryById(Guid idCategory)
+        public async Task<CategoryModel> GetCategoryByIdAsync(Guid idCategory)
         {
-            return await _categoryRepository.Get(idCategory);
+            return await _categoryRepository.GetByIdAsync(idCategory);
         }
 
-        public async Task<Guid> CreateCategory(CategoryModel category)
+        public async Task<Guid> CreateCategoryAsync(CategoryModel category)
         {
-            return await _categoryRepository.Create(category);
+            return await _categoryRepository.CreateAsync(category);
         }
 
 
-        public async Task<Guid> UpdateCategory(Guid idCategory, string? nameCategory)
+        public async Task<Guid> UpdateCategoryAsync(Guid idCategory, string? nameCategory)
         {
-            return await _categoryRepository.Update(idCategory, nameCategory);
+            return await _categoryRepository.UpdateAsync(idCategory, nameCategory);
         }
 
-        public async Task<Guid> DeleteCategory(Guid idCategory)
+        public async Task<Guid> DeleteCategoryAsync(Guid idCategory)
         {
-            return await _categoryRepository.Delete(idCategory);
+            return await _categoryRepository.DeleteAsync(idCategory);
         }
     }
 }

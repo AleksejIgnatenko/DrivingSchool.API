@@ -1,4 +1,5 @@
 ﻿using DrivingSchool.API.Contracts.UserContracts;
+using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Abstractions;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,9 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UsersResponse>>> GetUsers()
+        public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
-            var users = await _usersServices.GetAllUsers();
+            var users = await _usersServices.GetAllUsersAsync();
 
             var response = users.Select(u => new UsersResponse(u.Id, u.UserName, u.Email, u.Password, u.Role));
 
@@ -26,7 +27,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateUser([FromBody] UsersRequest usersRequest)
+        public async Task<ActionResult<Guid>> CreateUserAsync([FromBody] UsersRequest usersRequest)
         {
             var (user, error) = UserModel.Create(
                 Guid.NewGuid(),
@@ -41,23 +42,23 @@ namespace DrivingSchool.API.Controllers
                 return BadRequest(error);
             }
 
-            var userId = await _usersServices.CreateUser(user);
+            var userId = await _usersServices.CreateUserAsync(user);
 
             return Ok(userId);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateUser(Guid id, [FromBody] UsersRequest usersRequest)
+        public async Task<ActionResult<Guid>> UpdateUserAsync(Guid id, [FromBody] UsersRequest usersRequest)
         {
-            var userId = await _usersServices.UpdateUser(id, usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
+            var userId = await _usersServices.UpdateUserAsync(id, usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
 
             return Ok(userId);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<Guid>> DeleteUser(Guid id)
+        public async Task<ActionResult<Guid>> DeleteUserAsync(Guid id)
         {
-            return Ok(await _usersServices.DeleteUser(id));
+            return Ok(await _usersServices.DeleteUserAsync(id));
         }
     }
 }

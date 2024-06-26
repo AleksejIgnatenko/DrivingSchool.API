@@ -12,31 +12,31 @@ namespace DrivingSchool.BusinessLogic.TestServices
             this._testRepository = testRepository;
         }
 
-        public async Task<List<TestModel>> GetAllTest()
+        public async Task<List<TestModel>> GetAllTestAsync()
         {
-            return await _testRepository.Get();
+            return await _testRepository.GetAsync();
         }
 
-        public TestModel? GetTestById(Guid id)
+        public async Task<TestModel> GetTestById(Guid id)
         {
-            return _testRepository.Get(id);
-        }
-
-
-        public async Task<Guid> CreateTest(TestModel test)
-        {
-            return await _testRepository.Create(test);
+            return await _testRepository.GetByIdAsync(id);
         }
 
 
-        public async Task<Guid> UpdateTest(Guid id, Guid categoryId, string? nameTest)
+        public async Task<Guid> CreateTestAsync(TestModel test)
         {
-            return await _testRepository.Update(id, categoryId, nameTest);
+            return await _testRepository.CreateAsync(test);
         }
 
-        public async Task<Guid> DeleteTest(Guid id)
+
+        public async Task<Guid> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest)
         {
-            return await _testRepository.Delete(id);
+            return await _testRepository.UpdateAsync(id, categoryId, nameTest);
+        }
+
+        public async Task<Guid> DeleteTestAsync(Guid id)
+        {
+            return await _testRepository.DeleteAsync(id);
         }
     }
 }

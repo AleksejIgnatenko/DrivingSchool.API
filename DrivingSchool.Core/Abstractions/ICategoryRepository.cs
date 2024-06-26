@@ -4,10 +4,10 @@ namespace DrivingSchool.DataAccess.Repositories
 {
     public interface ICategoryRepository
     {
-        Task<Guid> Create(CategoryModel category);
-        Task<Guid> Delete(Guid id);
-        Task<List<CategoryModel>> Get();
-        Task<CategoryModel> Get(Guid id);
-        Task<Guid> Update(Guid idCategory, string? nameCategory);
+        Task<Guid> CreateAsync(CategoryModel category);
+        Task<Guid> DeleteAsync(Guid id);
+        Task<List<CategoryModel>> GetAsync();
+        Task<CategoryModel> GetByIdAsync(Guid id);
+        Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory);
     }
 }

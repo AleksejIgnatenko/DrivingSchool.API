@@ -12,25 +12,25 @@ namespace DrivingSchool.BusinessLogic.UserServices
             _usersRepository = usersRepository;
         }
 
-        public async Task<List<UserModel>> GetAllUsers()
+        public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            return await _usersRepository.Get();
+            return await _usersRepository.GetAsync();
         }
 
-        public async Task<Guid> CreateUser(UserModel user)
+        public async Task<Guid> CreateUserAsync(UserModel user)
         {
-            return await _usersRepository.Create(user);
+            return await _usersRepository.CreateAsync(user);
         }
 
 
-        public async Task<Guid> UpdateUser(Guid idUser, string userName, string email, string password, string role)
+        public async Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, string role)
         {
-            return await _usersRepository.Update(idUser, userName, email, password, role);
+            return await _usersRepository.UpdateAsync(idUser, userName, email, password, role);
         }
 
-        public async Task<Guid> DeleteUser(Guid idUser)
+        public async Task<Guid> DeleteUserAsync(Guid idUser)
         {
-            return await _usersRepository.Delete(idUser);
+            return await _usersRepository.DeleteAsync(idUser);
         }
     }
 }

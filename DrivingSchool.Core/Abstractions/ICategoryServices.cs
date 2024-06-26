@@ -4,10 +4,10 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
 {
     public interface ICategoryServices
     {
-        Task<Guid> CreateCategory(CategoryModel category);
-        Task<Guid> DeleteCategory(Guid idCategory);
-        Task<List<CategoryModel>> GetAllCategory();
-        Task<CategoryModel> GetCategoryById(Guid idCategory);
-        Task<Guid> UpdateCategory(Guid idCategory, string? nameCategory);
+        Task<Guid> CreateCategoryAsync(CategoryModel category);
+        Task<Guid> DeleteCategoryAsync(Guid idCategory);
+        Task<List<CategoryModel>> GetAllCategoryAsync();
+        Task<CategoryModel> GetCategoryByIdAsync(Guid idCategory);
+        Task<Guid> UpdateCategoryAsync(Guid idCategory, string? nameCategory);
     }
 }

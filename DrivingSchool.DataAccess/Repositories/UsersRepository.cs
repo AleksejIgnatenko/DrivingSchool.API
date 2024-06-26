@@ -13,7 +13,7 @@ namespace DrivingSchool.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<Guid> Create(UserModel user)
+        public async Task<Guid> CreateAsync(UserModel user)
         {
             var userEntity = new UserEntity
             {
@@ -30,7 +30,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return userEntity.Id;
         }
 
-        public async Task<List<UserModel>> Get()
+        public async Task<List<UserModel>> GetAsync()
         {
             var usersEntities = await _context.Users
                 .AsNoTracking()
@@ -43,7 +43,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return users;
         }
 
-        public async Task<Guid> Update(Guid idUser, string username, string email, string password, string role)
+        public async Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, string role)
         {
             await _context.Users
                .Where(u => u.Id == idUser)
@@ -57,7 +57,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return idUser;
         }
 
-        public async Task<Guid> Delete(Guid idUser)
+        public async Task<Guid> DeleteAsync(Guid idUser)
         {
             await _context.Users
                 .Where(u => u.Id == idUser)

@@ -1,12 +1,12 @@
 ﻿using DrivingSchool.Core.Models;
 
-namespace DrivingSchool.Core.Abstractions
+namespace DrivingSchool.BusinessLogic.UserServices
 {
     public interface IUsersServices
     {
-        Task<Guid> CreateUser(UserModel user);
-        Task<Guid> DeleteUser(Guid idUser);
-        Task<List<UserModel>> GetAllUsers();
-        Task<Guid> UpdateUser(Guid idUser, string username, string email, string password, string role);
+        Task<Guid> CreateUserAsync(UserModel user);
+        Task<Guid> DeleteUserAsync(Guid idUser);
+        Task<List<UserModel>> GetAllUsersAsync();
+        Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, string role);
     }
 }

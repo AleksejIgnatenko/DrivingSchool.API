@@ -4,10 +4,10 @@ namespace DrivingSchool.DataAccess.Repositories
 {
     public interface IQuestionRepository
     {
-        Task<Guid> Create(QuestionModel question);
-        Task<Guid> Delete(Guid id);
-        Task<List<QuestionModel>> Get();
-        QuestionModel? GetById(Guid id);
-        Task<Guid> Update(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer);
+        Task<Guid> CreateAsync(QuestionModel question);
+        Task<Guid> DeleteAsync(Guid id);
+        Task<List<QuestionModel>> GetAsync();
+        QuestionModel? GetByIdAsync(Guid id);
+        Task<Guid> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer);
     }
 }

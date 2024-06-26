@@ -20,9 +20,9 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TestResponse>>> GetTest()
+        public async Task<ActionResult<List<TestResponse>>> GetTestAsync()
         {
-            var tests = await _testServices.GetAllTest();
+            var tests = await _testServices.GetAllTestAsync();
 
             var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest, t.Questions.ToDictionary(q => q.Id, q => q.QuestionText)));
 
@@ -30,11 +30,11 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateTest([FromBody] TestRequest testRequest)
+        public async Task<ActionResult<Guid>> CreateTestAsync([FromBody] TestRequest testRequest)
         {
             var (test, error) = TestModel.Create(
                 Guid.NewGuid(),
-                await _categoryServices.GetCategoryById(testRequest.IdCategory),
+                await _categoryServices.GetCategoryByIdAsync(testRequest.IdCategory),
                 testRequest.NameTest
             );
 
@@ -43,24 +43,24 @@ namespace DrivingSchool.API.Controllers
                 return BadRequest(error);
             }
 
-            var testId = await _testServices.CreateTest(test);
+            var testId = await _testServices.CreateTestAsync(test);
 
             return Ok(testId);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateTest(Guid id, [FromBody] TestRequest testRequest)
+        public async Task<ActionResult<Guid>> UpdateTestAsync(Guid id, [FromBody] TestRequest testRequest)
         {
 
-            var testId = await _testServices.UpdateTest(id, testRequest.IdCategory, testRequest.NameTest);
+            var testId = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
 
             return Ok(testId);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<Guid>> DeleteTest(Guid id)
+        public async Task<ActionResult<Guid>> DeleteTestAsync(Guid id)
         {
-            return Ok(await _testServices.DeleteTest(id));
+            return Ok(await _testServices.DeleteTestAsync(id));
         }
     }
 }

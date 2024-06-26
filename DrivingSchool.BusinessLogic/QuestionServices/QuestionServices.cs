@@ -17,26 +17,26 @@ namespace DrivingSchool.BusinessLogic.QuestionServices
             this._questionRepository = questionRepository;
         }
 
-        public async Task<List<QuestionModel>> GetAllQuestions()
+        public async Task<List<QuestionModel>> GetAllQuestionsAsync()
         {
-            return await _questionRepository.Get();
+            return await _questionRepository.GetAsync();
         }
 
 
-        public async Task<Guid> CreateQuestion(QuestionModel question)
+        public async Task<Guid> CreateQuestionAsync(QuestionModel question)
         {
-            return await _questionRepository.Create(question);
+            return await _questionRepository.CreateAsync(question);
         }
 
 
-        public async Task<Guid> UpdateQuestion(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
+        public async Task<Guid> UpdateQuestionAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
-            return await _questionRepository.Update(id, testId, questionText, linkPhoto, answer1, answer2, answer3, answer4, correctAnswer);
+            return await _questionRepository.UpdateAsync(id, testId, questionText, linkPhoto, answer1, answer2, answer3, answer4, correctAnswer);
         }
 
-        public async Task<Guid> DeleteQuestion(Guid id)
+        public async Task<Guid> DeleteQuestionAsync(Guid id)
         {
-            return await _questionRepository.Delete(id);
+            return await _questionRepository.DeleteAsync(id);
         }
     }
 }

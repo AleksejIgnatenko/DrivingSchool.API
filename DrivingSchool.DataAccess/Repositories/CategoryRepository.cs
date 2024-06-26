@@ -13,7 +13,7 @@ namespace DrivingSchool.DataAccess.Repositories
             this._context = context;
         }
 
-        public async Task<Guid> Create(CategoryModel category)
+        public async Task<Guid> CreateAsync(CategoryModel category)
         {
             CategoryEntity categoryEntity = new CategoryEntity
             {
@@ -27,24 +27,12 @@ namespace DrivingSchool.DataAccess.Repositories
             return categoryEntity.Id;
         }
 
-        public async Task<List<CategoryModel>> Get()
+        public async Task<List<CategoryModel>> GetAsync()
         {
             var categoryEntities = await _context.Categories
                 .AsNoTracking()
                 .Include(c => c.Tests)
                 .ToListAsync();
-
-            /*            foreach (var categoryEntity in categoryEntities) 
-                        {
-                            Console.WriteLine(categoryEntity.NameCategory);
-                            if (categoryEntity.NameCategory != null)
-                            {
-                                foreach (var item in categoryEntity.TestEntities)
-                                {
-                                    Console.WriteLine(item.NameTest);
-                                }
-                            }
-                        }*/
 
             List<CategoryModel> categories = categoryEntities
                 .Select(c => CategoryModel.Create(
@@ -58,7 +46,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return categories;
         }
 
-        public async Task<CategoryModel> Get(Guid id)
+        public async Task<CategoryModel> GetByIdAsync(Guid id)
         {
             var categories = await _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
 
@@ -70,7 +58,7 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Категория не найдена.");
         }
 
-        public async Task<Guid> Update(Guid idCategory, string? nameCategory)
+        public async Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory)
         {
             await _context.Categories
                 .Where(c => c.Id == idCategory)
@@ -80,7 +68,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return idCategory;
         }
 
-        public async Task<Guid> Delete(Guid id)
+        public async Task<Guid> DeleteAsync(Guid id)
         {
             await _context.Categories
                 .Where(c => c.Id == id)

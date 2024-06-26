@@ -4,9 +4,9 @@ namespace DrivingSchool.Core.Abstractions
 {
     public interface IUsersRepository
     {
-        Task<Guid> Create(UserModel user);
-        Task<Guid> Delete(Guid idUser);
-        Task<List<UserModel>> Get();
-        Task<Guid> Update(Guid idUser, string username, string email, string password, string role);
+        Task<Guid> CreateAsync(UserModel user);
+        Task<Guid> DeleteAsync(Guid idUser);
+        Task<List<UserModel>> GetAsync();
+        Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, string role);
     }
 }

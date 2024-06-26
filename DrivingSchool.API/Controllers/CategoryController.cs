@@ -17,9 +17,9 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<CategoryResponse>>> GetCategory()
+        public async Task<ActionResult<List<CategoryResponse>>> GetCategoryAsync()
         {
-            var category = await _categoryServices.GetAllCategory();
+            var category = await _categoryServices.GetAllCategoryAsync();
 
             var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory, c.Tests.ToDictionary(t => t.Id, t => t.NameTest)));
 
@@ -27,7 +27,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<Guid>> CreateCategory([FromBody] CategoryRequest categoryRequest)
+        public async Task<ActionResult<Guid>> CreateCategoryAsync([FromBody] CategoryRequest categoryRequest)
         {
             var (category, error) = CategoryModel.Create(
                 Guid.NewGuid(),
@@ -39,23 +39,23 @@ namespace DrivingSchool.API.Controllers
                 return BadRequest(error);
             }
 
-            var categoryId = await _categoryServices.CreateCategory(category);
+            var categoryId = await _categoryServices.CreateCategoryAsync(category);
 
             return Ok(categoryId);
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateCategory(Guid id, [FromBody] CategoryRequest categoryRequest)
+        public async Task<ActionResult<Guid>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
         {
-            var categoryId = await _categoryServices.UpdateCategory(id, categoryRequest.NameCategory);
+            var categoryId = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
 
             return Ok(categoryId);
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<Guid>> DeleteCategory(Guid id)
+        public async Task<ActionResult<Guid>> DeleteCategoryAsync(Guid id)
         {
-            return Ok(await _categoryServices.DeleteCategory(id));
+            return Ok(await _categoryServices.DeleteCategoryAsync(id));
         }
     }
 }

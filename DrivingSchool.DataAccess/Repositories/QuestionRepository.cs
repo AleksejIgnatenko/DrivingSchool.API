@@ -19,7 +19,7 @@ namespace DrivingSchool.DataAccess.Repositories
             this._context = context;
         }
 
-        public async Task<Guid> Create(QuestionModel question)
+        public async Task<Guid> CreateAsync(QuestionModel question)
         {
             var existingTest = await _context.Tests
                 .FirstOrDefaultAsync(t => t.Id == question.Test.Id);
@@ -48,7 +48,7 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Ошибка добавления вопрсоа");
         }
 
-        public async Task<List<QuestionModel>> Get()
+        public async Task<List<QuestionModel>> GetAsync()
         {
             var questionEntity = await _context.Questions
                 .AsNoTracking()
@@ -70,7 +70,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return question;
         }
 
-        public QuestionModel? GetById(Guid id)
+        public QuestionModel? GetByIdAsync(Guid id)
         {
             var questionEntity = _context.Questions
                 .FirstOrDefault(q => q.Id == id);
@@ -92,7 +92,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return null;
         }
 
-        public async Task<Guid> Update(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
+        public async Task<Guid> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
             var questionEntity = await _context.Questions.FindAsync(id);
             var testEntity = await _context.Tests.FindAsync(testId);
@@ -116,7 +116,7 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Error for update test");
         }
 
-        public async Task<Guid> Delete(Guid id)
+        public async Task<Guid> DeleteAsync(Guid id)
         {
             await _context.Questions
                 .Where(q => q.Id == id)
