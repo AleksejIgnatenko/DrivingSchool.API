@@ -1,5 +1,5 @@
-﻿using DrivingSchool.Core.Abstractions;
-using DrivingSchool.Core.Models;
+﻿using DrivingSchool.Core.Models;
+using DrivingSchool.DataAccess.Repositories;
 
 namespace DrivingSchool.BusinessLogic.UserServices
 {
@@ -15,6 +15,11 @@ namespace DrivingSchool.BusinessLogic.UserServices
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
             return await _usersRepository.GetAsync();
+        }
+
+        public async Task<UserModel> GetUsersByIdAsync(Guid idUser)
+        {
+            return await _usersRepository.GetByIdAsync(idUser);
         }
 
         public async Task<Guid> CreateUserAsync(UserModel user)

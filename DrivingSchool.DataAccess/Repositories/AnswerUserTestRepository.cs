@@ -17,27 +17,8 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<Guid> CreateAsync(AnswerUserTestModel answerUserTestModel)
         {
-            UserEntity userEntity = new UserEntity
-            {
-                Id = answerUserTestModel.User.Id,
-                UserName = answerUserTestModel.User.UserName,
-                Email = answerUserTestModel.User.Email,
-                Password = answerUserTestModel.User.Password,
-                Role = answerUserTestModel.User.Role
-            };
-
-            CategoryEntity categoryEntity = new CategoryEntity
-            {
-                Id = answerUserTestModel.Test.Category.Id,
-                NameCategory = answerUserTestModel.Test.Category.NameCategory
-            };
-
-            TestEntity testEntity = new TestEntity
-            {
-                Id = answerUserTestModel.Test.Id,
-                Category = categoryEntity,
-                NameTest = answerUserTestModel.Test.NameTest
-            };
+            var userEntity = await _context.Users.FindAsync(answerUserTestModel.User.Id);
+            var testEntity = await _context.Tests.FindAsync(answerUserTestModel.Test.Id);
 
             AnswerUserTestEntity answerUserTestEntity = new AnswerUserTestEntity
             {

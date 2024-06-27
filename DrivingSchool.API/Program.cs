@@ -1,11 +1,11 @@
 using DrivingSchool.BusinessLogic.UserServices;
-using DrivingSchool.Core.Abstractions;
 using DrivingSchool.DataAccess.Repositories;
 using DrivingSchool.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.BusinessLogic.QuestionServices;
+using DrivingSchool.BusinessLogic.AnswerUserTestServices;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +32,9 @@ builder.Services.AddScoped<ITestRepository, TestRepository>();
 
 builder.Services.AddScoped<IQuestionServices, QuestionServices>();
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
+
+builder.Services.AddScoped<IAnswerUserTestServices, AnswerUserTestServices>();
+builder.Services.AddScoped<IAnswerUserTestRepository, AnswerUserTestRepository>();
 
 var app = builder.Build();
 

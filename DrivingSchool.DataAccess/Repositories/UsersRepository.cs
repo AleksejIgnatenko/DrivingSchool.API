@@ -1,5 +1,4 @@
-﻿using DrivingSchool.Core.Abstractions;
-using DrivingSchool.Core.Models;
+﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,6 +40,15 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToList();
 
             return users;
+        }
+
+        public async Task<UserModel> GetByIdAsync(Guid id)
+        {
+            var usersEntities = await _context.Users.FindAsync(id);
+
+            var user = UserModel.Create(usersEntities.Id, usersEntities.UserName, usersEntities.Email, usersEntities.Password, usersEntities.Role).user;
+
+            return user;
         }
 
         public async Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, string role)

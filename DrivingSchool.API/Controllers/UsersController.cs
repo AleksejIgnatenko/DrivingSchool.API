@@ -1,6 +1,5 @@
 ﻿using DrivingSchool.API.Contracts.UserContracts;
 using DrivingSchool.BusinessLogic.UserServices;
-using DrivingSchool.Core.Abstractions;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 

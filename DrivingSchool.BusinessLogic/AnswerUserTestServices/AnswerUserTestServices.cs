@@ -30,7 +30,7 @@ namespace DrivingSchool.BusinessLogic.AnswerUserTestServices
             return await _answerUserTestRepository.UpdateAsync(id, idUser, idTest, resultTest);
         }
 
-        public async Task<Guid> DeleteCategoryAsync(Guid idAnswerUserTest)
+        public async Task<Guid> DeleteAnswerUserAsync(Guid idAnswerUserTest)
         {
             return await _answerUserTestRepository.DeleteAsync(idAnswerUserTest);
         }

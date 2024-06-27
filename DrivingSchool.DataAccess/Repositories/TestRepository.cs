@@ -68,7 +68,7 @@ namespace DrivingSchool.DataAccess.Repositories
 
             if (testEntity != null)
             {
-                TestModel test = TestModel.Create(testEntity.Id, (CategoryModel.Create(testEntity.Category.Id, testEntity.Category.NameCategory).category), testEntity.NameTest).test;
+                TestModel test = TestModel.Create(testEntity.Id, testEntity.NameTest).test;
                 return test;
             }
 
