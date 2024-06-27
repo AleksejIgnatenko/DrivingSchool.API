@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
 {
-    public class AnswerUserTestRepository
+    public class AnswerUserTestRepository : IAnswerUserTestRepository
     {
         private readonly DrivingSchoolDbContext _context;
 
