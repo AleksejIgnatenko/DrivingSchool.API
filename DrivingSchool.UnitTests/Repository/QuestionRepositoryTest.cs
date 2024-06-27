@@ -17,8 +17,8 @@ namespace DrivingSchool.UnitTests.Repository
         [Fact]
         public async Task CreateAsync()
         {
-            TestModel test = TestModel.Create(Guid.NewGuid(), "Test").test;
             // Arrange
+            TestModel test = TestModel.Create(Guid.NewGuid(), "Test").test;
             QuestionModel question = QuestionModel.Create(Guid.NewGuid(), test, "Text", "", "answer1", "answer2", "answer3", "answer4", "correctAnswer").question;
 
             // Act

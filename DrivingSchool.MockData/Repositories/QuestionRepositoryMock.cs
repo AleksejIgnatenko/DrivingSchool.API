@@ -37,7 +37,7 @@ namespace DrivingSchool.MockData.Repositories
             var testEntity = new TestEntity
             {
                 Id = Guid.NewGuid(),
-                NameTest = "Test category",
+                NameTest = "Test",
             };
 
             var questionEntity = new List<QuestionEntity>
