@@ -108,5 +108,15 @@ namespace DrivingSchool.MockData.Repositories
 
             throw new Exception("Error search by id");
         }
+
+        public async Task<Guid> UpdateAsync(Guid testId ,Guid idCategory, string? nameTest)
+        {
+            return await Task.FromResult(testId);
+        }
+
+        public async Task<Guid> DeleteAsync(Guid id)
+        {
+            return await Task.FromResult(id);
+        }
     }
 }

@@ -51,7 +51,7 @@ namespace DrivingSchool.UnitTests.Repository
             var question = await _repository.GetByIdAsync(id);
 
             // Assert
-            Assert.Single(question);
+            Assert.NotNull(question);
         }
 
         [DotMemoryUnit(FailIfRunWithoutSupport = false)]
@@ -59,8 +59,8 @@ namespace DrivingSchool.UnitTests.Repository
         public async Task UpdateAsync()
         {
             // Arrange
-            Guid questionId = Guid.Parse("d833d875-660f-4d6b-a138-796a6ae98095");
-            Guid testId = Guid.Parse("5f51c061-b5f8-4579-928e-3858cd3013f5");
+            Guid questionId = Guid.NewGuid();
+            Guid testId = Guid.NewGuid();
             string textQuestion = "update";
             string linkPhoto = "update";
             string answer1 = "update";
@@ -81,13 +81,13 @@ namespace DrivingSchool.UnitTests.Repository
         public async Task DeleteAsync()
         {
             // Arrange
-            Guid questionid = Guid.Parse("d833d875-660f-4d6b-a138-796a6ae98095");
+            Guid questionId = Guid.NewGuid();
 
             // Act
-            var id = await _repository.DeleteAsync(questionid);
+            var id = await _repository.DeleteAsync(questionId);
 
             // Assert
-            Assert.Equal(questionid, id);
+            Assert.Equal(questionId, id);
         }
     }
 }

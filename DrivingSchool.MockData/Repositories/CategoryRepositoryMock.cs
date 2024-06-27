@@ -10,7 +10,7 @@ namespace DrivingSchool.MockData.Repositories
         {
         }
 
-        public async Task<Guid> CreateAsync(CategoryModel category)
+        public async Task<Guid> CreateAsync(CategoryModel category, CancellationToken ct = default)
         {
             CategoryEntity categoryEntity = new CategoryEntity
             {
@@ -21,7 +21,7 @@ namespace DrivingSchool.MockData.Repositories
             return await Task.FromResult(categoryEntity.Id);
         }
 
-        public async Task<List<CategoryModel>> GetAsync()
+        public async Task<List<CategoryModel>> GetAsync(CancellationToken ct = default)
         {
             var categoryEntity = new List<CategoryEntity>
             {
@@ -60,7 +60,7 @@ namespace DrivingSchool.MockData.Repositories
             return await Task.FromResult(categories);
         }
 
-        public async Task<CategoryModel> GetByIdAsync(Guid id)
+        public async Task<CategoryModel> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var categoryEntities = new List<CategoryEntity>
             {
@@ -105,12 +105,12 @@ namespace DrivingSchool.MockData.Repositories
             throw new Exception("Категория не найдена.");
         }
 
-        public async Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory)
+        public async Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory, CancellationToken ct = default)
         {
             return await Task.FromResult(idCategory);
         }
 
-        public async Task<Guid> DeleteAsync(Guid id)
+        public async Task<Guid> DeleteAsync(Guid id, CancellationToken ct = default)
         {
             return await Task.FromResult(id);
         }

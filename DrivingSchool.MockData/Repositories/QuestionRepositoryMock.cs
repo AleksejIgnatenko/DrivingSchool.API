@@ -9,7 +9,7 @@ namespace DrivingSchool.MockData.Repositories
         {
         }
 
-        public async Task<Guid> CreateAsync(QuestionModel question)
+        public async Task<Guid> CreateAsync(QuestionModel question, CancellationToken ct = default)
         {
             TestEntity testEntity = new TestEntity
             {
@@ -32,7 +32,7 @@ namespace DrivingSchool.MockData.Repositories
             return await Task.FromResult(questionEntity.Id);
         }
 
-        public async Task<List<QuestionModel>> GetAsync()
+        public async Task<List<QuestionModel>> GetAsync(CancellationToken ct = default)
         {
             var testEntity = new TestEntity
             {
@@ -73,7 +73,7 @@ namespace DrivingSchool.MockData.Repositories
             return await Task.FromResult(question);
         }
 
-        public async Task<List<QuestionModel>> GetByIdAsync(Guid id)
+        public async Task<QuestionModel> GetByIdAsync(Guid id, CancellationToken ct = default)
         {
             var testEntity = new TestEntity
             {
@@ -81,7 +81,7 @@ namespace DrivingSchool.MockData.Repositories
                 NameTest = "Test category",
             };
 
-            var questionEntity = new List<QuestionEntity>
+            var questionEntities = new List<QuestionEntity>
             {
                 new QuestionEntity
                 {
@@ -97,19 +97,19 @@ namespace DrivingSchool.MockData.Repositories
                 }
             };
 
-            questionEntity[0].Test = testEntity;
+            questionEntities[0].Test = testEntity;
 
-            var question = questionEntity
-                .Select(q => QuestionModel.Create(q.Id,
-                                TestModel.Create(q.Test.Id, q.Test.NameTest).test,
-                                q.QuestionText,
-                                q.LinkPhoto,
-                                q.Answer1,
-                                q.Answer2,
-                                q.Answer3,
-                                q.Answer4,
-                                q.CorrectAnswer).question)
-                .ToList();
+            var questionEntity = questionEntities.FirstOrDefault(q => q.Id == id);
+
+            var question = QuestionModel.Create(questionEntity.Id,
+                                TestModel.Create(questionEntity.Test.Id, questionEntity.Test.NameTest).test,
+                                questionEntity.QuestionText,
+                                questionEntity.LinkPhoto,
+                                questionEntity.Answer1,
+                                questionEntity.Answer2,
+                                questionEntity.Answer3,
+                                questionEntity.Answer4,
+                                questionEntity.CorrectAnswer).question;
 
             return await Task.FromResult(question);
         }

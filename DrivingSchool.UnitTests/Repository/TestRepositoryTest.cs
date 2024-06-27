@@ -53,5 +53,35 @@ namespace DrivingSchool.UnitTests.Repository
             // Assert
             Assert.NotNull(test);
         }
+
+        [DotMemoryUnit(FailIfRunWithoutSupport = false)]
+        [Fact]
+        public async Task UpdateAsync()
+        {
+            // Arrange
+            Guid testId = Guid.NewGuid();
+            Guid categoryId = Guid.NewGuid();
+            string nameTest = "Test";
+
+            // Act
+            var id = await _repository.UpdateAsync(testId, categoryId, nameTest);
+
+            // Assert
+            Assert.Equal(testId, id);
+        }
+
+        [DotMemoryUnit(FailIfRunWithoutSupport = false)]
+        [Fact]
+        public async Task DeleteAsync()
+        {
+            // Arrange
+            Guid testId = Guid.NewGuid();
+
+            // Act
+            var id = await _repository.DeleteAsync(testId);
+
+            // Assert
+            Assert.Equal(testId, id);
+        }
     }
 }

@@ -10,6 +10,7 @@ namespace DrivingSchool.DataAccess
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<TestEntity> Tests { get; set; }
         public DbSet<QuestionEntity> Questions { get; set; }
+        public DbSet<AnswerUserTestEntity> AnswerUserTests { get; set; }
 
         public DrivingSchoolDbContext(DbContextOptions<DrivingSchoolDbContext> options) : base(options)
         {

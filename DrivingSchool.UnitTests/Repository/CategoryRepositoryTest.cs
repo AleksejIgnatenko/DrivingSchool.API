@@ -59,7 +59,7 @@ namespace DrivingSchool.UnitTests.Repository
         public async Task UpdateAsync()
         {
             // Arrange
-            Guid categoryid = Guid.Parse("d833d875-660f-4d6b-a138-796a6ae98095");
+            Guid categoryid = Guid.NewGuid();
             string nameCategory = "update";
 
             // Act
@@ -74,7 +74,7 @@ namespace DrivingSchool.UnitTests.Repository
         public async Task DeleteAsync()
         {
             // Arrange
-            Guid categoryid = Guid.Parse("d833d875-660f-4d6b-a138-796a6ae98095");
+            Guid categoryid = Guid.NewGuid();
 
             // Act
             var id = await _repository.DeleteAsync(categoryid);
