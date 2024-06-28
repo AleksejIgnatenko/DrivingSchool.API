@@ -33,11 +33,20 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             var usersEntities = await _context.Users
                 .AsNoTracking()
+                .Include(u => u.AnswerUserTests.Where(a => a.Test != null))
+                .ThenInclude(a => a.Test)
                 .ToListAsync();
 
-            var users = usersEntities
-                .Select(u => UserModel.Create(u.Id, u.UserName, u.Email, u.Password, u.Role).user)
-                .ToList();
+            var users = usersEntities.Select(u =>
+                UserModel.Create(
+                    u.Id,
+                    u.AnswerUserTests.Select(a => AnswerUserTestModel.Create(a.Id, TestModel.Create(a.Test.Id, a.Test.NameTest).test, a.ResultTest).answerUserTestModel).ToList(),
+                    u.UserName,
+                    u.Email,
+                    u.Password,
+                    u.Role
+                ).user
+            ).ToList();
 
             return users;
         }

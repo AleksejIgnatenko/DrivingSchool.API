@@ -55,7 +55,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToListAsync();
 
             var tests = testEntity
-                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.NameTest, t.Questions.Select(q => QuestionModel.Create(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer).question).ToList()).test)
+                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.Questions.Select(q => QuestionModel.Create(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer).question).ToList(), t.NameTest).test)
                 .ToList();
 
             return tests;

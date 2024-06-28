@@ -2,9 +2,11 @@
 {
     public record UsersResponse(
         Guid IdUser,
-        string UserName,
-        string Email,
-        string Password,
-        string Role
+        string? UserName,
+        string? Email,
+        string? Password,
+        string? Role,
+        List<string>? NameTest,
+        List<int>? ResultTest
         );
 }

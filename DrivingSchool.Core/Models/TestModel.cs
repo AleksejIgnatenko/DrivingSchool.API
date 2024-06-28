@@ -5,8 +5,9 @@ namespace DrivingSchool.Core.Models
 	{
 		public Guid Id { get; }
 		public CategoryModel? Category { get; }
-		public string? NameTest { get; }
-		public List<QuestionModel>? Questions { get; }
+        public List<QuestionModel>? Questions { get; }
+        public List<AnswerUserTestModel>? Answers { get; }
+        public string? NameTest { get; }
 
         private TestModel(Guid id, string? nameTest)
         {
@@ -21,7 +22,7 @@ namespace DrivingSchool.Core.Models
             NameTest = nameTest;
         }
 
-        private TestModel(Guid id, CategoryModel? category, string? nameTest, List<QuestionModel> questions)
+        private TestModel(Guid id, CategoryModel? category, List<QuestionModel> questions, string? nameTest)
         {
 			Id = id;
 			Category = category;
@@ -43,10 +44,10 @@ namespace DrivingSchool.Core.Models
             return (test, error);
         }
 
-        public static (TestModel test, string error) Create(Guid id, CategoryModel? category, string? nameTest, List<QuestionModel> questions)
+        public static (TestModel test, string error) Create(Guid id, CategoryModel? category, List<QuestionModel> questions, string? nameTest)
 		{
 			string error = string.Empty;
-			TestModel test = new TestModel(id, category, nameTest, questions);
+			TestModel test = new TestModel(id, category, questions, nameTest);
 			return (test, error);
 		}
 	}

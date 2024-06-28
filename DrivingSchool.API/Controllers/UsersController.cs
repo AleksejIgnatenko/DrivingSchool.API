@@ -2,6 +2,7 @@
 using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -20,7 +21,15 @@ namespace DrivingSchool.API.Controllers
         {
             var users = await _usersServices.GetAllUsersAsync();
 
-            var response = users.Select(u => new UsersResponse(u.Id, u.UserName, u.Email, u.Password, u.Role));
+            var response = users.Select(u => new UsersResponse(
+                u.Id,
+                u.UserName,
+                u.Email,
+                u.Password,
+                u.Role,
+                u.Answers.Select(a => a.Test.NameTest).ToList(),
+                u.Answers.Select(a => a.ResultTest).ToList()
+            ));
 
             return Ok(response);
         }
