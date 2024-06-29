@@ -6,7 +6,7 @@
         string? Email,
         string? Password,
         string? Role,
-        List<string>? NameTest,
+        string? NameTest,
         List<int>? ResultTest
         );
 }

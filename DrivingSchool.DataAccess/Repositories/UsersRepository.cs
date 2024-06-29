@@ -33,14 +33,14 @@ namespace DrivingSchool.DataAccess.Repositories
         {
             var usersEntities = await _context.Users
                 .AsNoTracking()
-                .Include(u => u.AnswerUserTests.Where(a => a.Test != null))
+                .Include(u => u.AnswerUserTests)
                 .ThenInclude(a => a.Test)
                 .ToListAsync();
 
             var users = usersEntities.Select(u =>
                 UserModel.Create(
                     u.Id,
-                    u.AnswerUserTests.Select(a => AnswerUserTestModel.Create(a.Id, TestModel.Create(a.Test.Id, a.Test.NameTest).test, a.ResultTest).answerUserTestModel).ToList(),
+                    u.AnswerUserTests.Select(a => AnswerUserTestModel.Create(a.Id, TestModel.Create(a.Test.Id, a.Test.NameTest).test, a.ResultTest).answer).ToList(),
                     u.UserName,
                     u.Email,
                     u.Password,
@@ -48,6 +48,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 ).user
             ).ToList();
 
+            await Console.Out.WriteLineAsync(users[0].Answers[0].Test.NameTest);
             return users;
         }
 

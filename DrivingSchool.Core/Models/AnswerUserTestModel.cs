@@ -23,7 +23,7 @@ namespace DrivingSchool.Core.Models
             ResultTest = resultTest;
         }
 
-        public static (AnswerUserTestModel answerUserTestModel, string error) Create(Guid id, TestModel test, int resultTest)
+        public static (AnswerUserTestModel answer, string error) Create(Guid id, TestModel test, int resultTest)
         {
             string error = string.Empty;
             AnswerUserTestModel answerUserTestModel = new AnswerUserTestModel(id, test, resultTest);

@@ -39,7 +39,7 @@ namespace DrivingSchool.Core.Models
         public static (UserModel user, string error) Create(Guid idUser, List<AnswerUserTestModel> answers, string? userName, string? email, string? password, string? role)
         {
             string error = string.Empty;
-            UserModel user = new UserModel(idUser, userName, email, password, role);
+            UserModel user = new UserModel(idUser, answers, userName, email, password, role);
             return (user, error);
         }
     }
