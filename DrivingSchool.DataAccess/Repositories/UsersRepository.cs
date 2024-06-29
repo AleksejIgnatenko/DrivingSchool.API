@@ -48,7 +48,6 @@ namespace DrivingSchool.DataAccess.Repositories
                 ).user
             ).ToList();
 
-            await Console.Out.WriteLineAsync(users[0].Answers[0].Test.NameTest);
             return users;
         }
 

@@ -29,7 +29,7 @@ namespace DrivingSchool.MockData.Repositories
                 CorrectAnswer = question.CorrectAnswer,
             };
 
-            return await Task.FromResult(questionEntity.Id);
+            return await questionEntity.Id.AsTask();
         }
 
         public async Task<List<QuestionModel>> GetAsync(CancellationToken ct = default)
@@ -58,7 +58,7 @@ namespace DrivingSchool.MockData.Repositories
 
             questionEntity[0].Test = testEntity;
 
-            var question = questionEntity
+            var questions = questionEntity
                 .Select(q => QuestionModel.Create(q.Id,
                                 TestModel.Create(q.Test.Id, q.Test.NameTest).test,
                                 q.QuestionText,
@@ -70,7 +70,7 @@ namespace DrivingSchool.MockData.Repositories
                                 q.CorrectAnswer).question)
                 .ToList();
 
-            return await Task.FromResult(question);
+            return await questions.AsTask();
         }
 
         public async Task<QuestionModel> GetByIdAsync(Guid id, CancellationToken ct = default)
@@ -111,17 +111,17 @@ namespace DrivingSchool.MockData.Repositories
                                 questionEntity.Answer4,
                                 questionEntity.CorrectAnswer).question;
 
-            return await Task.FromResult(question);
+            return await question.AsTask();
         }
 
         public async Task<Guid> UpdateAsync(Guid idQuestion, Guid idTest, string questionText, string linkPhoto, string answer1, string answer2, string answer3, string answer4, string correctAnswer)
         {
-            return await Task.FromResult(idQuestion);
+            return await idQuestion.AsTask();
         }
 
         public async Task<Guid> DeleteAsync(Guid id)
         {
-            return await Task.FromResult(id);
+            return await id.AsTask();
         }
     }
 }
