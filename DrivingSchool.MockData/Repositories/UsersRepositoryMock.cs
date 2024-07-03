@@ -72,7 +72,7 @@ namespace DrivingSchool.MockData.Repositories
         {
             var usersEntities = new UserEntity
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.Parse("87742b94-99f5-4ecd-9c0d-0676d9ae3cc4"),
                 UserName = "UserName",
                 Email = "Email",
                 Password = "password",

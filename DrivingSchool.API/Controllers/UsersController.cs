@@ -26,9 +26,12 @@ namespace DrivingSchool.API.Controllers
                 u.Email,
                 u.Password,
                 u.Role,
-                u.Answers.Select(a => a.Test.NameTest).First(),
-                u.Answers.Select(a => a.ResultTest).ToList()
-            ));
+                u.Answers.GroupBy(a => a.Test.Id)
+                          .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+/*                u.Answers.ToDictionary(a => a.Test.Id, a => a.ResultTest)
+*//*                u.Answers.Select(a => a.Test.NameTest).First(),
+                u.Answers.Select(a => a.ResultTest).ToList()*/
+            )).ToList();
 
             return Ok(response);
         }

@@ -6,7 +6,6 @@
         string? Email,
         string? Password,
         string? Role,
-        string? NameTest,
-        List<int>? ResultTest
+        Dictionary<Guid, int[]>? ResultTest
         );
 }
