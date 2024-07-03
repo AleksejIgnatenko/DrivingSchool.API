@@ -46,7 +46,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 .Select(a =>
                 AnswerUserTestModel.Create(a.Id, UserModel.Create(a.User.Id, a.User.UserName, a.User.Email, a.User.Password, a.User.Role).user,
                 TestModel.Create(a.Test.Id, a.Test.NameTest).test,
-                a.ResultTest).answerUserTestModel).ToList();
+                a.ResultTest).answer).ToList();
 
             return answerUserTests;
         }

@@ -15,12 +15,9 @@ namespace DrivingSchool.Core.Models
             ResultTest = resultTest;
         }
 
-        private AnswerUserTestModel(Guid id, UserModel user, TestModel test, int resultTest)
+        private AnswerUserTestModel(Guid id, UserModel user, TestModel test, int resultTest) : this(id, test, resultTest)
         {
-            Id = id;
             User = user;
-            Test = test;
-            ResultTest = resultTest;
         }
 
         public static (AnswerUserTestModel answer, string error) Create(Guid id, TestModel test, int resultTest)
@@ -30,7 +27,7 @@ namespace DrivingSchool.Core.Models
             return (answerUserTestModel, error);
         }
 
-        public static (AnswerUserTestModel answerUserTestModel, string error) Create(Guid id, UserModel user, TestModel test, int resultTest)
+        public static (AnswerUserTestModel answer, string error) Create(Guid id, UserModel user, TestModel test, int resultTest)
         {
             string error = string.Empty;
             AnswerUserTestModel answerUserTestModel = new AnswerUserTestModel(id, user, test, resultTest);

@@ -13,10 +13,8 @@ namespace DrivingSchool.Core.Models
             NameCategory = nameCategory;
         }
 
-        private CategoryModel(Guid idCategory, string? nameCategory, List<TestModel>? tests)
+        private CategoryModel(Guid idCategory, string? nameCategory, List<TestModel>? tests) : this(idCategory, nameCategory)
         {
-            Id = idCategory;
-            NameCategory = nameCategory;
             Tests = tests;
         }
 

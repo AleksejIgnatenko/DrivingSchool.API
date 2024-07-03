@@ -19,14 +19,10 @@ namespace DrivingSchool.Core.Models
             Role = role;
         }
 
-        private UserModel(Guid idUser, List<AnswerUserTestModel> answers, string? userName, string? email, string? password, string? role)
+        private UserModel(Guid idUser, List<AnswerUserTestModel> answers, string? userName, string? email, string? password, string? role) 
+            : this(idUser, userName, email, password, role)
         {
-            Id = idUser;
             Answers = answers;
-            UserName = userName;
-            Email = email;
-            Password = password;
-            Role = role;
         }
 
         public static (UserModel user, string error) Create(Guid idUser, string? userName, string? email, string? password, string? role)

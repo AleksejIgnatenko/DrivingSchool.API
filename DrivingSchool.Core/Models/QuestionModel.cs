@@ -30,17 +30,10 @@ namespace DrivingSchool.Core.Models
             CorrectAnswer = correctAnswer;
         }
 
-        public QuestionModel(Guid id, TestModel? test, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
+        public QuestionModel(Guid id, TestModel? test, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer) 
+            : this(id, questionText, linkPhoto, answer1, answer2, answer3, answer4, correctAnswer)
         {
-            Id = id;
             Test = test;
-            QuestionText = questionText;
-            LinkPhoto = linkPhoto;
-            Answer1 = answer1;
-            Answer2 = answer2;
-            Answer3 = answer3;
-            Answer4 = answer4;
-            CorrectAnswer = correctAnswer;
         }
 
         public static (QuestionModel question, string error) Create(Guid id, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)

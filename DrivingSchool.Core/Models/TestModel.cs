@@ -15,18 +15,13 @@ namespace DrivingSchool.Core.Models
             NameTest = nameTest;
         }
 
-        private TestModel(Guid id, CategoryModel? category, string? nameTest)
+        private TestModel(Guid id, CategoryModel? category, string? nameTest) : this(id, nameTest)
         {
-            Id = id;
             Category = category;
-            NameTest = nameTest;
         }
 
-        private TestModel(Guid id, CategoryModel? category, List<QuestionModel> questions, string? nameTest)
+        private TestModel(Guid id, CategoryModel? category, List<QuestionModel> questions, string? nameTest) : this(id, category, nameTest)
         {
-			Id = id;
-			Category = category;
-			NameTest = nameTest;
 			Questions = questions;
         }
 
