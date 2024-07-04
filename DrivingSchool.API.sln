@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.BusinessLogic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.UnitTests", "DrivingSchool.UnitTests\DrivingSchool.UnitTests.csproj", "{C510EC77-ADD5-458C-8C59-06BC5ED57183}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivingSchool.MockData", "DrivingSchool.MockData\DrivingSchool.MockData.csproj", "{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.MockData", "DrivingSchool.MockData\DrivingSchool.MockData.csproj", "{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivingSchool.IntegrationTest", "DrivingSchool.IntegrationTest\DrivingSchool.IntegrationTest.csproj", "{533A9FF9-DD61-405F-B65B-A5BC6778565D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}.Release|Any CPU.Build.0 = Release|Any CPU
+		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
