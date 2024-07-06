@@ -4,6 +4,7 @@ using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -35,43 +36,63 @@ namespace DrivingSchool.API.Controllers
             }
             catch (Exception ex)
             {
-                throw new Exception($"{ex}");
+                return StatusCode(500, ex);
             }
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateAnswerUserTestAsync([FromBody] AnswerUserTestRequest answerUserTestRequest)
         {
-            var (answer, error) = AnswerUserTestModel.Create(
-                Guid.NewGuid(),
-                await _usersServices.GetUsersByIdAsync(answerUserTestRequest.UserId),
-                await _testServices.GetTestById(answerUserTestRequest.TestId),
-                answerUserTestRequest.ResultTest
-            );
-
-            if (!string.IsNullOrEmpty(error))
+            try
             {
-                return BadRequest(error);
+                var (answer, error) = AnswerUserTestModel.Create(
+                    Guid.NewGuid(),
+                    await _usersServices.GetUsersByIdAsync(answerUserTestRequest.UserId),
+                    await _testServices.GetTestById(answerUserTestRequest.TestId),
+                    answerUserTestRequest.ResultTest
+                );
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                var answerUserTestId = await _answerUserTestServices.CreateAnswerUserTestAsync(answer);
+
+                return Ok(answerUserTestId);
             }
-
-            var answerUserTestId = await _answerUserTestServices.CreateAnswerUserTestAsync(answer);
-
-            return Ok(answerUserTestId);
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateAnswerUserTestAsync(Guid id, [FromBody] AnswerUserTestRequest answerUserTestRequest)
         {
+            try
+            {
+                var answerUserTestId = await _answerUserTestServices.UpdateAnswerUserTestAsync(id, answerUserTestRequest.UserId, answerUserTestRequest.TestId, answerUserTestRequest.ResultTest);
 
-            var answerUserTestId = await _answerUserTestServices.UpdateAnswerUserTestAsync(id, answerUserTestRequest.UserId, answerUserTestRequest.TestId, answerUserTestRequest.ResultTest);
-
-            return Ok(answerUserTestId);
+                return Ok(answerUserTestId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteQuestionAsync(Guid id)
         {
-            return Ok(await _answerUserTestServices.DeleteAnswerUserAsync(id));
+            try
+            {
+                return Ok(await _answerUserTestServices.DeleteAnswerUserAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

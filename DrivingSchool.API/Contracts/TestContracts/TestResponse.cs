@@ -1,9 +1,11 @@
-﻿namespace DrivingSchool.API.Contracts.TestContracts
+﻿using DrivingSchool.Core.Models;
+
+namespace DrivingSchool.API.Contracts.TestContracts
 {
     public record TestResponse(
         Guid IdTest,
         string? NameCategory,
         string? NameTest,
-        Dictionary<Guid, string?> Questions
+        List<QuestionModelView> Questions
         );
 }

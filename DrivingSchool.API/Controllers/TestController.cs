@@ -22,45 +22,72 @@ namespace DrivingSchool.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<TestResponse>>> GetTestAsync()
         {
-            var tests = await _testServices.GetAllTestAsync();
+            try
+            {
+                var tests = await _testServices.GetAllTestAsync();
 
-            var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest, t.Questions.ToDictionary(q => q.Id, q => q.QuestionText)));
+                var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest, t.Questions.Select(q => new QuestionModelView(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer)).ToList()));
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateTestAsync([FromBody] TestRequest testRequest)
         {
-            var (test, error) = TestModel.Create(
-                Guid.NewGuid(),
-                await _categoryServices.GetCategoryByIdAsync(testRequest.IdCategory),
-                testRequest.NameTest
-            );
-
-            if (!string.IsNullOrEmpty(error))
+            try
             {
-                return BadRequest(error);
+                var (test, error) = TestModel.Create(
+                    Guid.NewGuid(),
+                    await _categoryServices.GetCategoryByIdAsync(testRequest.IdCategory),
+                    testRequest.NameTest
+                );
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                var testId = await _testServices.CreateTestAsync(test);
+
+                return Ok(testId);
             }
-
-            var testId = await _testServices.CreateTestAsync(test);
-
-            return Ok(testId);
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateTestAsync(Guid id, [FromBody] TestRequest testRequest)
         {
+            try
+            {
+                var testId = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
 
-            var testId = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
-
-            return Ok(testId);
+                return Ok(testId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteTestAsync(Guid id)
         {
-            return Ok(await _testServices.DeleteTestAsync(id));
+            try
+            {
+                return Ok(await _testServices.DeleteTestAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

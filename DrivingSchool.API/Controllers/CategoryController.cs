@@ -19,43 +19,71 @@ namespace DrivingSchool.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<CategoryResponse>>> GetCategoryAsync()
         {
-            var category = await _categoryServices.GetAllCategoryAsync();
+            try
+            {
+                var category = await _categoryServices.GetAllCategoryAsync();
 
-            var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory, c.Tests.ToDictionary(t => t.Id, t => t.NameTest)));
+                var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory, c.Tests.ToDictionary(t => t.Id, t => t.NameTest)));
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex) 
+            { 
+                return StatusCode(500, ex); 
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateCategoryAsync([FromBody] CategoryRequest categoryRequest)
         {
-            var (category, error) = CategoryModel.Create(
-                Guid.NewGuid(),
-                categoryRequest.NameCategory
-            );
-
-            if (!string.IsNullOrEmpty(error))
+            try
             {
-                return BadRequest(error);
+                var (category, error) = CategoryModel.Create(
+                    Guid.NewGuid(),
+                    categoryRequest.NameCategory
+                );
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                var categoryId = await _categoryServices.CreateCategoryAsync(category);
+
+                return Ok(categoryId);
             }
-
-            var categoryId = await _categoryServices.CreateCategoryAsync(category);
-
-            return Ok(categoryId);
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
         {
-            var categoryId = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
+            try
+            {
+                var categoryId = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
 
-            return Ok(categoryId);
+                return Ok(categoryId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteCategoryAsync(Guid id)
         {
-            return Ok(await _categoryServices.DeleteCategoryAsync(id));
+            try
+            {
+                return Ok(await _categoryServices.DeleteCategoryAsync(id));
+            }
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex);
+            }
         }
     }
 }

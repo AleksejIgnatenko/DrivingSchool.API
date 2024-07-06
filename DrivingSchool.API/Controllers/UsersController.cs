@@ -18,57 +18,82 @@ namespace DrivingSchool.API.Controllers
         [HttpGet]
         public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
-            var users = await _usersServices.GetAllUsersAsync();
+            try
+            {
+                var users = await _usersServices.GetAllUsersAsync();
 
-            var response = users.Select(u => new UsersResponse(
-                u.Id,
-                u.UserName,
-                u.Email,
-                u.Password,
-                u.Role,
-                u.Answers.GroupBy(a => a.Test.Id)
-                          .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
-/*                u.Answers.ToDictionary(a => a.Test.Id, a => a.ResultTest)
-*//*                u.Answers.Select(a => a.Test.NameTest).First(),
-                u.Answers.Select(a => a.ResultTest).ToList()*/
-            )).ToList();
+                var response = users.Select(u => new UsersResponse(
+                    u.Id,
+                    u.UserName,
+                    u.Email,
+                    u.Password,
+                    u.Role,
+                    u.Answers.GroupBy(a => a.Test.Id)
+                              .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                )).ToList();
 
-            return Ok(response);
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPost]
         public async Task<ActionResult<Guid>> CreateUserAsync([FromBody] UsersRequest usersRequest)
         {
-            var (user, error) = UserModel.Create(
-                Guid.NewGuid(),
-                usersRequest.UserName,
-                usersRequest.Email,
-                usersRequest.Password,
-                usersRequest.Role
-                );
-
-            if (!string.IsNullOrEmpty(error))
+            try
             {
-                return BadRequest(error);
+                var (user, error) = UserModel.Create(
+                    Guid.NewGuid(),
+                    usersRequest.UserName,
+                    usersRequest.Email,
+                    usersRequest.Password,
+                    usersRequest.Role
+                    );
+
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                var userId = await _usersServices.CreateUserAsync(user);
+
+                return Ok(userId);
             }
-
-            var userId = await _usersServices.CreateUserAsync(user);
-
-            return Ok(userId);
+            catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<Guid>> UpdateUserAsync(Guid id, [FromBody] UsersRequest usersRequest)
         {
-            var userId = await _usersServices.UpdateUserAsync(id, usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
+            try
+            {
+                var userId = await _usersServices.UpdateUserAsync(id, usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
 
-            return Ok(userId);
+                return Ok(userId);
+            }
+            catch (Exception ex) 
+            { 
+                return StatusCode(500, ex.Message);
+            }
         }
 
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<Guid>> DeleteUserAsync(Guid id)
         {
-            return Ok(await _usersServices.DeleteUserAsync(id));
+            try
+            {
+                return Ok(await _usersServices.DeleteUserAsync(id));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
