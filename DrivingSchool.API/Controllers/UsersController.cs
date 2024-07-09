@@ -45,6 +45,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
+                Console.WriteLine("Name:" + usersRequest.UserName);
                 var (user, error) = UserModel.Create(
                     Guid.NewGuid(),
                     usersRequest.UserName,

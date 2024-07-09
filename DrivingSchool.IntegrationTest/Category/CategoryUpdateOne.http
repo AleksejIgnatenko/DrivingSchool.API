@@ -1,0 +1,7 @@
+# For more info on HTTP files go to https://aka.ms/vs/httpfile
+PUT https://localhost:7103/Category/e61e3433-e1bc-4551-9248-2a564eab2343
+Content-Type: application/json
+
+{
+  "nameCategory": "UpdateIntegrationTestAddCategory"
+}

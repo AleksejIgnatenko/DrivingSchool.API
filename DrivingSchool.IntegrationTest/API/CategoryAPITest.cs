@@ -1,4 +1,5 @@
-﻿namespace DrivingSchool.IntegrationTest.API
+﻿
+namespace DrivingSchool.IntegrationTest.API
 {
     public class CategoryAPITest
     {

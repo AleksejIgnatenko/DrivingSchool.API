@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.UnitTests", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.MockData", "DrivingSchool.MockData\DrivingSchool.MockData.csproj", "{D4F40A72-FABF-4AB0-B72A-36EFFAF5DD38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivingSchool.IntegrationTest", "DrivingSchool.IntegrationTest\DrivingSchool.IntegrationTest.csproj", "{533A9FF9-DD61-405F-B65B-A5BC6778565D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.IntegrationTest", "DrivingSchool.IntegrationTest\DrivingSchool.IntegrationTest.csproj", "{533A9FF9-DD61-405F-B65B-A5BC6778565D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
