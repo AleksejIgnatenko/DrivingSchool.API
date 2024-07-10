@@ -45,7 +45,6 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                Console.WriteLine("Name:" + usersRequest.UserName);
                 var (user, error) = UserModel.Create(
                     Guid.NewGuid(),
                     usersRequest.UserName,
@@ -64,6 +63,46 @@ namespace DrivingSchool.API.Controllers
                 return Ok(userId);
             }
             catch (Exception ex) 
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<ActionResult<Guid>> RegisterUserAsync([FromBody] UsersRequest usersRequest)
+        {
+            try
+            {
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("login")]
+        public async Task<ActionResult<Guid>> LoginUserAsync([FromBody] LoginUserRequest loginUserRequest)
+        {
+            try
+            {
+                var (token, error) = await _usersServices.LoginUserAsync(loginUserRequest.Email, loginUserRequest.Password);
+                if (!string.IsNullOrEmpty(error))
+                {
+                    return BadRequest(error);
+                }
+
+                return Ok(token);
+            }
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }

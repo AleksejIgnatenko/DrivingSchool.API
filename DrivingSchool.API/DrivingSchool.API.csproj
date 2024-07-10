@@ -22,6 +22,7 @@
     <ProjectReference Include="..\DrivingSchool.BusinessLogic\DrivingSchool.BusinessLogic.csproj" />
     <ProjectReference Include="..\DrivingSchool.Core\DrivingSchool.Core.csproj" />
     <ProjectReference Include="..\DrivingSchool.DataAccess\DrivingSchool.DataAccess.csproj" />
+    <ProjectReference Include="..\DrivingSchool.Infrastructure\DrivingSchool.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

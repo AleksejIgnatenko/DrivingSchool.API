@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.MockData", "D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DrivingSchool.IntegrationTest", "DrivingSchool.IntegrationTest\DrivingSchool.IntegrationTest.csproj", "{533A9FF9-DD61-405F-B65B-A5BC6778565D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrivingSchool.Infrastructure", "DrivingSchool.Infrastructure\DrivingSchool.Infrastructure.csproj", "{EAA0BFD2-548B-4DB8-A417-4D539730959A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533A9FF9-DD61-405F-B65B-A5BC6778565D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAA0BFD2-548B-4DB8-A417-4D539730959A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAA0BFD2-548B-4DB8-A417-4D539730959A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAA0BFD2-548B-4DB8-A417-4D539730959A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAA0BFD2-548B-4DB8-A417-4D539730959A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

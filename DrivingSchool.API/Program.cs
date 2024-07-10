@@ -6,6 +6,7 @@ using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.AnswerUserTestServices;
+using DrivingSchool.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 builder.Services.AddDbContext<DrivingSchoolDbContext>(options =>
 {
@@ -35,6 +37,9 @@ builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 
 builder.Services.AddScoped<IAnswerUserTestServices, AnswerUserTestServices>();
 builder.Services.AddScoped<IAnswerUserTestRepository, AnswerUserTestRepository>();
+
+builder.Services.AddScoped<IJwtProvider, JwtProvider>();
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 
 var app = builder.Build();
 
