@@ -20,6 +20,7 @@ namespace DrivingSchool.Infrastructure
                 SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
+                claims: claims,
                 signingCredentials: signingCredentials,
                 expires: DateTime.UtcNow.AddHours(_options.ExpiresHours));
 

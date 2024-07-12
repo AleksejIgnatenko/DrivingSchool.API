@@ -55,7 +55,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
                 error = "Failed to login";
             }
 
-            var token = _jwtProvider.GenerateToken(user);
+            var token = _jwtProvider.GenerateToken(user).ToString();
 
             return (token, error);
         }

@@ -62,7 +62,7 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(userId);
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
             }
@@ -100,6 +100,8 @@ namespace DrivingSchool.API.Controllers
                     return BadRequest(error);
                 }
 
+                Response.Cookies.Append("test-cookies", token);
+
                 return Ok(token);
             }
             catch (Exception ex)
@@ -117,8 +119,8 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(userId);
             }
-            catch (Exception ex) 
-            { 
+            catch (Exception ex)
+            {
                 return StatusCode(500, ex.Message);
             }
         }
