@@ -1,4 +1,6 @@
 ﻿
+using DrivingSchool.Core.Enum;
+
 namespace DrivingSchool.DataAccess.Entities
 {
     public class UserEntity
@@ -8,6 +10,6 @@ namespace DrivingSchool.DataAccess.Entities
         public string? UserName { get; set; }
         public string? Email { get; set; }
         public string? Password { get; set; }
-        public string? Role { get; set; }
+        public RoleEnum? Role { get; set; }
     }
 }

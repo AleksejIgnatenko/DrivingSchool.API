@@ -1,4 +1,5 @@
-﻿using DrivingSchool.Core.Models;
+﻿using DrivingSchool.Core.Enum;
+using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -71,7 +72,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return user;
         }
 
-        public async Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, string role)
+        public async Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role)
         {
             await _context.Users
                .Where(u => u.Id == idUser)

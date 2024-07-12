@@ -1,6 +1,8 @@
 ﻿using DrivingSchool.API.Contracts.UserContracts;
 using DrivingSchool.BusinessLogic.UserServices;
+using DrivingSchool.Core.Enum;
 using DrivingSchool.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchool.API.Controllers
@@ -16,6 +18,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
             try
@@ -27,7 +30,7 @@ namespace DrivingSchool.API.Controllers
                     u.UserName,
                     u.Email,
                     u.Password,
-                    u.Role,
+                    u.Role.ToString(),
                     u.Answers.GroupBy(a => a.Test.Id)
                               .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
                 )).ToList();
@@ -50,7 +53,7 @@ namespace DrivingSchool.API.Controllers
                     usersRequest.UserName,
                     usersRequest.Email,
                     usersRequest.Password,
-                    usersRequest.Role
+                    RoleEnum.User
                     );
 
                 if (!string.IsNullOrEmpty(error))
@@ -74,7 +77,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.User);
                 if (!string.IsNullOrEmpty(error))
                 {
                     return BadRequest(error);
@@ -111,7 +114,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateUserAsync(Guid id, [FromBody] UsersRequest usersRequest)
+        public async Task<ActionResult<Guid>> UpdateUserAsync(Guid id, [FromBody] UpdateUsersRequest usersRequest)
         {
             try
             {

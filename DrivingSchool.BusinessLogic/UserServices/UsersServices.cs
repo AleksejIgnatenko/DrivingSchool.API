@@ -1,4 +1,5 @@
-﻿using DrivingSchool.Core.Models;
+﻿using DrivingSchool.Core.Enum;
+using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Repositories;
 using DrivingSchool.Infrastructure;
 
@@ -34,7 +35,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
             return await _usersRepository.CreateAsync(user);
         }
 
-        public async Task<string> RegisterUserAsync(string userName, string email, string password, string role)
+        public async Task<string> RegisterUserAsync(string userName, string email, string password, RoleEnum role)
         {
             var (user, error) = UserModel.Create(Guid.NewGuid(), userName, email, _passwordHasher.Generate(password), role);
 
@@ -61,7 +62,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
         }
 
 
-        public async Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, string role)
+        public async Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, RoleEnum role)
         {
             return await _usersRepository.UpdateAsync(idUser, userName, email, password, role);
         }

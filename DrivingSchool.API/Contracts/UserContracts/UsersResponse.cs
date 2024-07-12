@@ -1,4 +1,6 @@
-﻿namespace DrivingSchool.API.Contracts.UserContracts
+﻿using DrivingSchool.Core.Enum;
+
+namespace DrivingSchool.API.Contracts.UserContracts
 {
     public record UsersResponse(
         Guid IdUser,

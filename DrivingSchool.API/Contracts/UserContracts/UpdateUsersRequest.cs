@@ -2,9 +2,10 @@
 
 namespace DrivingSchool.API.Contracts.UserContracts
 {
-    public record UsersRequest(
+    public record UpdateUsersRequest(
         string UserName,
         string Email,
-        string Password
+        string Password,
+        RoleEnum Role
         );
 }

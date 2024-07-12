@@ -1,4 +1,5 @@
-﻿using DrivingSchool.Core.Models;
+﻿using DrivingSchool.Core.Enum;
+using DrivingSchool.Core.Models;
 
 namespace DrivingSchool.DataAccess.Repositories
 {
@@ -9,6 +10,6 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<List<UserModel>> GetAsync();
         Task<UserModel> GetByEmailAsync(string email);
         Task<UserModel> GetByIdAsync(Guid id);
-        Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, string role);
+        Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role);
     }
 }
