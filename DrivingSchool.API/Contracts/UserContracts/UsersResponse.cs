@@ -1,13 +1,11 @@
-﻿using DrivingSchool.Core.Enum;
-
-namespace DrivingSchool.API.Contracts.UserContracts
+﻿namespace DrivingSchool.API.Contracts.UserContracts
 {
     public record UsersResponse(
-/*        Guid IdUser,*/
+        //Guid IdUser,
         string? UserName,
-        string? Email
+        string? Email,
 /*        string? Password,
-        string? Role,
-        Dictionary<Guid, int[]>? ResultTest*/
+        string? Role,*/
+        Dictionary<string, int[]>? ResultsTests
         );
 }

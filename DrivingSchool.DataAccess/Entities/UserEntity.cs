@@ -1,5 +1,4 @@
-﻿
-using DrivingSchool.Core.Enum;
+﻿using DrivingSchool.Core.Enum;
 
 namespace DrivingSchool.DataAccess.Entities
 {

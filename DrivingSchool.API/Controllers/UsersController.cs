@@ -27,13 +27,14 @@ namespace DrivingSchool.API.Controllers
                 var users = await _usersServices.GetAllUsersAsync();
 
                 var response = users.Select(u => new UsersResponse(
-/*                    u.Id,*/
+                    /*u.Id,*/
                     u.UserName,
-                    u.Email
-/*                    u.Password,
-                    u.Role.ToString(),
-                    u.Answers.GroupBy(a => a.Test.Id)
-                              .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
+                    u.Email,
+                    /*u.Password,
+                    u.Role.ToString(),*/
+                    u.Answers
+                        .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
                 )).ToList();
 
                 return Ok(response);
@@ -54,13 +55,14 @@ namespace DrivingSchool.API.Controllers
                 var user = await _usersServices.GetUsersByIdAsync(Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
 
                 var response = new UsersResponse(
-                    //u.Id,
+                    /*u.Id,*/
                     user.UserName,
-                    user.Email
-                /*                    u.Password,
-                                    u.Role.ToString(),
-                                    u.Answers.GroupBy(a => a.Test.Id)
-                                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
+                    user.Email,
+                    /*u.Password,
+                    u.Role.ToString(),*/
+                    user.Answers
+                        .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
                 );
 
                 return Ok(response);
@@ -81,7 +83,7 @@ namespace DrivingSchool.API.Controllers
                     usersRequest.UserName,
                     usersRequest.Email,
                     usersRequest.Password,
-                    RoleEnum.User
+                    RoleEnum.Admin
                     );
 
                 if (!string.IsNullOrEmpty(error))

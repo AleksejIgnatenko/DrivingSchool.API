@@ -54,9 +54,19 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<UserModel> GetByIdAsync(Guid id)
         {
-            var usersEntities = await _context.Users.FindAsync(id) ?? throw new Exception();
+            var usersEntities = await _context.Users
+                .Include(u => u.AnswerUserTests)
+                .ThenInclude(a => a.Test)
+                .ThenInclude(t => t.Category)
+                .FirstOrDefaultAsync(u => u.Id == id);
 
-            var user = UserModel.Create(usersEntities.Id, usersEntities.UserName, usersEntities.Email, usersEntities.Password, usersEntities.Role).user;
+            var user = UserModel.Create(usersEntities.Id, usersEntities.AnswerUserTests
+                .Select(a => AnswerUserTestModel.Create(a.Id,
+                    TestModel.Create(a.Test.Id,  
+                        CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                    a.Test.NameTest).test, a.ResultTest).answer).ToList(), 
+                usersEntities.UserName, usersEntities.Email,
+                usersEntities.Password, usersEntities.Role).user;
 
             return user;
         }
