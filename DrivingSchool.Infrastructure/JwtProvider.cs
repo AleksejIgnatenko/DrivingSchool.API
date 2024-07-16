@@ -13,7 +13,8 @@ namespace DrivingSchool.Infrastructure
 
         public string GenerateToken(UserModel user)
         {
-            Claim[] claims = [new("userId", user.Id.ToString())];
+            Claim[] claims = [new("userId", user.Id.ToString()),
+                             new("role", user.Role.ToString()!)];
 
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),
@@ -27,6 +28,21 @@ namespace DrivingSchool.Infrastructure
             var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);
 
             return tokenValue;
+        }
+
+        public Guid GetIdFromToken(string jwtToken)
+        {
+            // Разбор JWT-токена для извлечения идентификатора пользователя
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwtSecurityToken = tokenHandler.ReadJwtToken(jwtToken);
+            var userId = jwtSecurityToken.Claims.FirstOrDefault(claim => claim.Type == "userId")?.Value;
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception();
+            }
+
+            return Guid.Parse(userId);
         }
     }
 }

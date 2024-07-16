@@ -3,11 +3,11 @@
 namespace DrivingSchool.API.Contracts.UserContracts
 {
     public record UsersResponse(
-        Guid IdUser,
+/*        Guid IdUser,*/
         string? UserName,
-        string? Email,
-        string? Password,
+        string? Email
+/*        string? Password,
         string? Role,
-        Dictionary<Guid, int[]>? ResultTest
+        Dictionary<Guid, int[]>? ResultTest*/
         );
 }

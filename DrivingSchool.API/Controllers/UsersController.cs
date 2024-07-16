@@ -4,6 +4,7 @@ using DrivingSchool.Core.Enum;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -18,7 +19,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
             try
@@ -26,14 +27,41 @@ namespace DrivingSchool.API.Controllers
                 var users = await _usersServices.GetAllUsersAsync();
 
                 var response = users.Select(u => new UsersResponse(
-                    u.Id,
+/*                    u.Id,*/
                     u.UserName,
-                    u.Email,
-                    u.Password,
+                    u.Email
+/*                    u.Password,
                     u.Role.ToString(),
                     u.Answers.GroupBy(a => a.Test.Id)
-                              .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                              .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
                 )).ToList();
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getUserInformationById")]
+        //[Authorize(Roles = "Admin")]
+        public async Task<ActionResult<UsersResponse>> GetUserInformationById()
+        {
+            try
+            {
+                var user = await _usersServices.GetUsersByIdAsync(Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+
+                var response = new UsersResponse(
+                    //u.Id,
+                    user.UserName,
+                    user.Email
+                /*                    u.Password,
+                                    u.Role.ToString(),
+                                    u.Answers.GroupBy(a => a.Test.Id)
+                                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
+                );
 
                 return Ok(response);
             }
@@ -103,9 +131,9 @@ namespace DrivingSchool.API.Controllers
                     return BadRequest(error);
                 }
 
-                Response.Cookies.Append("test-cookies", token);
+                //Response.Cookies.Append("test-cookies", token);
 
-                return Ok(token);
+                return new JsonResult(token);
             }
             catch (Exception ex)
             {
