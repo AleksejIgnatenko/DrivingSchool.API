@@ -19,7 +19,8 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [Route("getAllUsers")]
         public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
             try
@@ -27,14 +28,13 @@ namespace DrivingSchool.API.Controllers
                 var users = await _usersServices.GetAllUsersAsync();
 
                 var response = users.Select(u => new UsersResponse(
-                    /*u.Id,*/
+                    u.Id,
                     u.UserName,
                     u.Email,
-                    /*u.Password,
-                    u.Role.ToString(),*/
-                    u.Answers
+                    u.Role.ToString()
+/*                    u.Answers
                         .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
-                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
                 )).ToList();
 
                 return Ok(response);
@@ -47,7 +47,6 @@ namespace DrivingSchool.API.Controllers
 
         [HttpGet]
         [Route("getUserInformationById")]
-        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult<UsersResponse>> GetUserInformationById()
         {
             try
@@ -55,17 +54,31 @@ namespace DrivingSchool.API.Controllers
                 var user = await _usersServices.GetUsersByIdAsync(Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
 
                 var response = new UsersResponse(
-                    /*u.Id,*/
+                    user.Id,
                     user.UserName,
                     user.Email,
-                    /*u.Password,
-                    u.Role.ToString(),*/
-                    user.Answers
+                    user.Role.ToString()
+/*                    user.Answers
                         .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
-                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
                 );
 
                 return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("isAdmin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> IsAdmin()
+        {
+            try
+            {
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -107,7 +120,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.User);
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.Admin);
                 if (!string.IsNullOrEmpty(error))
                 {
                     return BadRequest(error);
