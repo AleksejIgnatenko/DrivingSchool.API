@@ -13,5 +13,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
         Task<(string token, string error)> LoginUserAsync(string email, string password);
         Task<string> RegisterUserAsync(string userName, string email, string password, RoleEnum role);
         Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, RoleEnum role);
+        Task<UserModel> AddModerator(Guid idUser);
+        Task<UserModel> DeleteModerator(Guid idUser);
     }
 }

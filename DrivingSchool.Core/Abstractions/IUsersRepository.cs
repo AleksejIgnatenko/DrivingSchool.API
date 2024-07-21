@@ -11,5 +11,7 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<UserModel> GetByEmailAsync(string email);
         Task<UserModel> GetByIdAsync(Guid id);
         Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role);
+        Task<UserModel> AddModerator(Guid idUser);
+        Task<UserModel> DeleteModerator(Guid idUser);
     }
 }

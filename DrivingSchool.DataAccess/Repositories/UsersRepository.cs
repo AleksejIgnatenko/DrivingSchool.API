@@ -36,12 +36,16 @@ namespace DrivingSchool.DataAccess.Repositories
                 .AsNoTracking()
                 .Include(u => u.AnswerUserTests)
                 .ThenInclude(a => a.Test)
+                .ThenInclude(t => t.Category)
                 .ToListAsync();
 
             var users = usersEntities.Select(u =>
                 UserModel.Create(
                     u.Id,
-                    u.AnswerUserTests.Select(a => AnswerUserTestModel.Create(a.Id, TestModel.Create(a.Test.Id, a.Test.NameTest).test, a.ResultTest).answer).ToList(),
+                    u.AnswerUserTests.Select(a => AnswerUserTestModel.Create(a.Id, 
+                        TestModel.Create(a.Test.Id,
+                            CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                        a.Test.NameTest).test, a.ResultTest).answer).ToList(),
                     u.UserName,
                     u.Email,
                     u.Password,
@@ -65,8 +69,10 @@ namespace DrivingSchool.DataAccess.Repositories
                     TestModel.Create(a.Test.Id,  
                         CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
                     a.Test.NameTest).test, a.ResultTest).answer).ToList(), 
-                usersEntities.UserName, usersEntities.Email,
-                usersEntities.Password, usersEntities.Role).user;
+                usersEntities.UserName, 
+                usersEntities.Email,
+                usersEntities.Password, 
+                usersEntities.Role).user;
 
             return user;
         }
@@ -94,6 +100,64 @@ namespace DrivingSchool.DataAccess.Repositories
                );
 
             return idUser;
+        }
+
+        public async Task<UserModel> AddModerator(Guid idUser)
+        {
+            var userEntitie = await _context.Users
+                .Include(u => u.AnswerUserTests)
+                .ThenInclude(a => a.Test)
+                .ThenInclude(t => t.Category)
+                .FirstOrDefaultAsync(u => u.Id == idUser); ;
+
+            if (userEntitie != null) 
+            { 
+                userEntitie.Role = RoleEnum.Moderator;
+                await _context.SaveChangesAsync();
+
+                var user = UserModel.Create(userEntitie.Id, userEntitie.AnswerUserTests
+                    .Select(a => AnswerUserTestModel.Create(a.Id,
+                        TestModel.Create(a.Test.Id,
+                            CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                        a.Test.NameTest).test, a.ResultTest).answer).ToList(),
+                    userEntitie.UserName,
+                    userEntitie.Email,
+                    userEntitie.Password,
+                    userEntitie.Role).user;
+
+                return user;
+            }
+
+            throw new Exception("Ошибка выдачи роли Moderator");
+        }
+
+        public async Task<UserModel> DeleteModerator(Guid idUser)
+        {
+            var userEntitie = await _context.Users
+                .Include(u => u.AnswerUserTests)
+                .ThenInclude(a => a.Test)
+                .ThenInclude(t => t.Category)
+                .FirstOrDefaultAsync(u => u.Id == idUser); ;
+
+            if (userEntitie != null)
+            {
+                userEntitie.Role = RoleEnum.User;
+                await _context.SaveChangesAsync();
+
+                var user = UserModel.Create(userEntitie.Id, userEntitie.AnswerUserTests
+                    .Select(a => AnswerUserTestModel.Create(a.Id,
+                        TestModel.Create(a.Test.Id,
+                            CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                        a.Test.NameTest).test, a.ResultTest).answer).ToList(),
+                    userEntitie.UserName,
+                    userEntitie.Email,
+                    userEntitie.Password,
+                    userEntitie.Role).user;
+
+                return user;
+            }
+
+            throw new Exception("Ошибка выдачи роли Moderator");
         }
 
         public async Task<Guid> DeleteAsync(Guid idUser)

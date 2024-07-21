@@ -31,10 +31,10 @@ namespace DrivingSchool.API.Controllers
                     u.Id,
                     u.UserName,
                     u.Email,
-                    u.Role.ToString()
-/*                    u.Answers
+                    u.Role.ToString(),
+                    u.Answers
                         .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
-                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
                 )).ToList();
 
                 return Ok(response);
@@ -57,10 +57,10 @@ namespace DrivingSchool.API.Controllers
                     user.Id,
                     user.UserName,
                     user.Email,
-                    user.Role.ToString()
-/*                    user.Answers
+                    user.Role.ToString(),
+                    user.Answers
                         .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
-                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())*/
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
                 );
 
                 return Ok(response);
@@ -120,7 +120,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.Admin);
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.User);
                 if (!string.IsNullOrEmpty(error))
                 {
                     return BadRequest(error);
@@ -164,6 +164,56 @@ namespace DrivingSchool.API.Controllers
                 var userId = await _usersServices.UpdateUserAsync(id, usersRequest.UserName, usersRequest.Email, usersRequest.Password, usersRequest.Role);
 
                 return Ok(userId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("addModeratorRole/{id:guid}")]
+        public async Task<ActionResult<UserModel>> AddModerator(Guid id)
+        {
+            try
+            {
+                var user = await _usersServices.AddModerator(id);
+
+                var response = new UsersResponse(
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.Role.ToString(),
+                    user.Answers
+                        .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                );
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("deleteModeratorRole/{id:guid}")]
+        public async Task<ActionResult<UserModel>> DeleteModerator(Guid id)
+        {
+            try
+            {
+                var user = await _usersServices.DeleteModerator(id);
+
+                var response = new UsersResponse(
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.Role.ToString(),
+                    user.Answers
+                        .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                );
+
+                return Ok(response);
             }
             catch (Exception ex)
             {

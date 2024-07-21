@@ -4,7 +4,7 @@
         Guid IdUser,
         string? UserName,
         string? Email,
-        string? Role
-/*        Dictionary<string, int[]>? ResultsTests*/
+        string? Role,
+        Dictionary<string, int[]>? ResultsTests
         );
 }
