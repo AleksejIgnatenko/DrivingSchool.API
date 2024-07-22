@@ -157,7 +157,36 @@ namespace DrivingSchool.DataAccess.Repositories
                 return user;
             }
 
-            throw new Exception("Ошибка выдачи роли Moderator");
+            throw new Exception("Ошибка удаления роли Moderator");
+        }
+
+        public async Task<UserModel> UserNameChange(Guid idUser, string newUserName)
+        {
+            var userEntitie = await _context.Users
+                .Include(u => u.AnswerUserTests)
+                .ThenInclude(a => a.Test)
+                .ThenInclude(t => t.Category)
+                .FirstOrDefaultAsync(u => u.Id == idUser); ;
+
+            if (userEntitie != null)
+            {
+                userEntitie.UserName = newUserName;
+                await _context.SaveChangesAsync();
+
+                var user = UserModel.Create(userEntitie.Id, userEntitie.AnswerUserTests
+                    .Select(a => AnswerUserTestModel.Create(a.Id,
+                        TestModel.Create(a.Test.Id,
+                            CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                        a.Test.NameTest).test, a.ResultTest).answer).ToList(),
+                    userEntitie.UserName,
+                    userEntitie.Email,
+                    userEntitie.Password,
+                    userEntitie.Role).user;
+
+                return user;
+            }
+
+            throw new Exception("Ошибка изменения имени пользователя");
         }
 
         public async Task<Guid> DeleteAsync(Guid idUser)

@@ -172,11 +172,11 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("addModeratorRole/{id:guid}")]
-        public async Task<ActionResult<UserModel>> AddModerator(Guid id)
+        public async Task<ActionResult<UsersResponse>> AddModerator(Guid id)
         {
             try
             {
-                var user = await _usersServices.AddModerator(id);
+                var user = await _usersServices.AddModeratorRole(id);
 
                 var response = new UsersResponse(
                     user.Id,
@@ -197,11 +197,36 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("deleteModeratorRole/{id:guid}")]
-        public async Task<ActionResult<UserModel>> DeleteModerator(Guid id)
+        public async Task<ActionResult<UsersResponse>> DeleteModerator(Guid id)
         {
             try
             {
-                var user = await _usersServices.DeleteModerator(id);
+                var user = await _usersServices.DeleteModeratorRole(id);
+
+                var response = new UsersResponse(
+                    user.Id,
+                    user.UserName,
+                    user.Email,
+                    user.Role.ToString(),
+                    user.Answers
+                        .GroupBy(a => a.Test.Category?.NameCategory) // Группировка по названию категории
+                        .ToDictionary(g => g.Key, g => g.Select(a => a.ResultTest).ToArray())
+                );
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPut("userNameChange/{id:guid}")]
+        public async Task<ActionResult<UsersResponse>> UserNameChange(Guid id, [FromBody] string newUserName)
+        {
+            try
+            {
+                var user = await _usersServices.UserNameChange(id, newUserName);
 
                 var response = new UsersResponse(
                     user.Id,

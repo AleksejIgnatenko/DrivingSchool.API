@@ -13,5 +13,6 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role);
         Task<UserModel> AddModerator(Guid idUser);
         Task<UserModel> DeleteModerator(Guid idUser);
+        Task<UserModel> UserNameChange(Guid idUser, string newUserName);
     }
 }

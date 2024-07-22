@@ -68,20 +68,24 @@ namespace DrivingSchool.BusinessLogic.UserServices
             return (token, error);
         }
 
-
         public async Task<Guid> UpdateUserAsync(Guid idUser, string userName, string email, string password, RoleEnum role)
         {
             return await _usersRepository.UpdateAsync(idUser, userName, email, password, role);
         }
 
-        public async Task<UserModel> AddModerator(Guid idUser)
+        public async Task<UserModel> AddModeratorRole(Guid idUser)
         {
             return await _usersRepository.AddModerator(idUser);
         }        
         
-        public async Task<UserModel> DeleteModerator(Guid idUser)
+        public async Task<UserModel> DeleteModeratorRole(Guid idUser)
         {
             return await _usersRepository.DeleteModerator(idUser);
+        }
+
+        public async Task<UserModel> UserNameChange(Guid idUser, string newUserName)
+        {
+            return await _usersRepository.UserNameChange(idUser, newUserName);
         }
 
         public async Task<Guid> DeleteUserAsync(Guid idUser)
