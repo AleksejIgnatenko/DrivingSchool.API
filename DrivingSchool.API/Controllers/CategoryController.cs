@@ -17,6 +17,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Route("getAllCategory")]
         public async Task<ActionResult<List<CategoryResponse>>> GetCategoryAsync()
         {
             try

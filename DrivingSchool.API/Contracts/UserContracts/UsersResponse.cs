@@ -1,7 +1,7 @@
 ﻿namespace DrivingSchool.API.Contracts.UserContracts
 {
     public record UsersResponse(
-        Guid IdUser,
+        Guid Id,
         string? UserName,
         string? Email,
         string? Role,
