@@ -4,7 +4,6 @@ using DrivingSchool.Core.Enum;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -19,7 +18,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getAllUsers")]
         public async Task<ActionResult<List<UsersResponse>>> GetUsersAsync()
         {
@@ -72,8 +71,8 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        [Route("isAdmin")]
-        [Authorize(Roles = "Admin")]
+        [Route("isAdminOrModerator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult> IsAdmin()
         {
             try
@@ -120,7 +119,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.User);
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.Admin);
                 if (!string.IsNullOrEmpty(error))
                 {
                     return BadRequest(error);
@@ -172,6 +171,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("addModeratorRole/{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UsersResponse>> AddModerator(Guid id)
         {
             try
@@ -197,6 +197,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("deleteModeratorRole/{id:guid}")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<UsersResponse>> DeleteModerator(Guid id)
         {
             try
