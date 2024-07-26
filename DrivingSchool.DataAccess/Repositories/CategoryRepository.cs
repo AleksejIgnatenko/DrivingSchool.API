@@ -58,14 +58,20 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Категория не найдена.");
         }
 
-        public async Task<Guid> UpdateAsync(Guid idCategory, string? nameCategory)
+        public async Task<CategoryModel> UpdateAsync(Guid idCategory, string? nameCategory)
         {
             await _context.Categories
                 .Where(c => c.Id == idCategory)
                 .ExecuteUpdateAsync(c => c
                 .SetProperty(c => c.NameCategory, nameCategory));
 
-            return idCategory;
+            var categoryEntity = await _context.Categories.FirstOrDefaultAsync(c => c.Id == idCategory);
+            if (categoryEntity != null)
+            {
+                var category = CategoryModel.Create(categoryEntity.Id, categoryEntity.NameCategory).category;
+                return category;
+            }
+            throw new Exception();
         }
 
         public async Task<Guid> DeleteAsync(Guid id)

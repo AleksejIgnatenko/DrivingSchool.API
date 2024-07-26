@@ -28,7 +28,7 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
         }
 
 
-        public async Task<Guid> UpdateCategoryAsync(Guid idCategory, string? nameCategory)
+        public async Task<CategoryModel> UpdateCategoryAsync(Guid idCategory, string? nameCategory)
         {
             return await _categoryRepository.UpdateAsync(idCategory, nameCategory);
         }

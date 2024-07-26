@@ -24,7 +24,7 @@ namespace DrivingSchool.API.Controllers
             {
                 var category = await _categoryServices.GetAllCategoryAsync();
 
-                var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory, c.Tests.ToDictionary(t => t.Id, t => t.NameTest)));
+                var response = category.Select(c => new CategoryResponse(c.Id, c.NameCategory));//, Tests.ToDictionary(t => t.Id, t => t.NameTest)
 
                 return Ok(response);
             }
@@ -60,8 +60,9 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
+        public async Task<ActionResult<CategoryResponse>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
         {
+            Console.WriteLine(id);
             try
             {
                 var categoryId = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
