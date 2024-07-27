@@ -1,6 +1,4 @@
-﻿using DrivingSchool.Core.Models;
-
-namespace DrivingSchool.API.Contracts.TestContracts
+﻿namespace DrivingSchool.API.Contracts.TestContracts
 {
     public record TestResponse(
         Guid IdTest,

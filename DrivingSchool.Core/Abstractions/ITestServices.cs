@@ -7,6 +7,7 @@ namespace DrivingSchool.BusinessLogic.TestServices
         Task<Guid> CreateTestAsync(TestModel test);
         Task<Guid> DeleteTestAsync(Guid id);
         Task<List<TestModel>> GetAllTestAsync();
+        Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory);
         Task<TestModel> GetTestById(Guid id);
         Task<Guid> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest);
     }

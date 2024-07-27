@@ -8,6 +8,7 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<Guid> DeleteAsync(Guid id);
         Task<List<TestModel>> GetAsync();
         Task<TestModel> GetByIdAsync(Guid id);
+        Task<List<TestModel>> GetCategoryTestsAsync(Guid id);
         Task<Guid> UpdateAsync(Guid id, Guid categoryId, string? nameTest);
     }
 }

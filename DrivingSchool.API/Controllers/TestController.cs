@@ -20,13 +20,32 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<TestResponse>>> GetTestAsync()
+        [Route("getAllTests")]
+        public async Task<ActionResult<List<GetAllTestResponse>>> GetTestAsync()
         {
             try
             {
                 var tests = await _testServices.GetAllTestAsync();
 
-                var response = tests.Select(t => new TestResponse(t.Id, t.Category.NameCategory, t.NameTest, t.Questions.Select(q => new QuestionModelView(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer)).ToList()));
+                var response = tests.Select(t => new GetAllTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("getCategoryTests")]
+        public async Task<ActionResult<List<GetAllTestResponse>>> GetCategoryTestsAsync(Guid idCategory)
+        {
+            try
+            {
+                var tests = await _testServices.GetCategoryTestsAsync(idCategory);
+
+                var response = tests.Select(t => new GetAllTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
 
                 return Ok(response);
             }
