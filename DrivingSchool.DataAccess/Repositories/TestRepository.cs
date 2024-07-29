@@ -95,7 +95,7 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception();
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, Guid categoryId, string? nameTest)
+        public async Task<TestModel> UpdateAsync(Guid id, Guid categoryId, string? nameTest)
         {
             var testEntity = await _context.Tests.FindAsync(id);
             var categoryEntity = await _context.Categories.FindAsync(categoryId);
@@ -107,7 +107,12 @@ namespace DrivingSchool.DataAccess.Repositories
 
                 await _context.SaveChangesAsync();
 
-                return id;
+                var test = TestModel.Create(
+                    testEntity.Id, 
+                        CategoryModel.Create(testEntity.Category.Id, testEntity.Category.NameCategory).category, 
+                    testEntity.NameTest).test;
+
+                return test;
             }
 
             throw new Exception("Error for update test");

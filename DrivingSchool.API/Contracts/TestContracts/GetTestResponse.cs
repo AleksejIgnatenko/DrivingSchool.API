@@ -1,6 +1,6 @@
 ﻿namespace DrivingSchool.API.Contracts.TestContracts
 {
-    public record GetAllTestResponse(
+    public record GetTestResponse(
         Guid Id,
         string? NameCategory,
         string? NameTest

@@ -9,6 +9,6 @@ namespace DrivingSchool.BusinessLogic.TestServices
         Task<List<TestModel>> GetAllTestAsync();
         Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory);
         Task<TestModel> GetTestById(Guid id);
-        Task<Guid> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest);
+        Task<TestModel> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest);
     }
 }

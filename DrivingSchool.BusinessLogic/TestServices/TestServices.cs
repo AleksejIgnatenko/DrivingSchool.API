@@ -34,7 +34,7 @@ namespace DrivingSchool.BusinessLogic.TestServices
         }
 
 
-        public async Task<Guid> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest)
+        public async Task<TestModel> UpdateTestAsync(Guid id, Guid categoryId, string? nameTest)
         {
             return await _testRepository.UpdateAsync(id, categoryId, nameTest);
         }

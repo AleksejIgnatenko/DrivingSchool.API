@@ -9,6 +9,6 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<List<TestModel>> GetAsync();
         Task<TestModel> GetByIdAsync(Guid id);
         Task<List<TestModel>> GetCategoryTestsAsync(Guid id);
-        Task<Guid> UpdateAsync(Guid id, Guid categoryId, string? nameTest);
+        Task<TestModel> UpdateAsync(Guid id, Guid categoryId, string? nameTest);
     }
 }

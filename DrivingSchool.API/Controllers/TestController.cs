@@ -3,6 +3,7 @@ using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -21,13 +22,13 @@ namespace DrivingSchool.API.Controllers
 
         [HttpGet]
         [Route("getAllTests")]
-        public async Task<ActionResult<List<GetAllTestResponse>>> GetTestAsync()
+        public async Task<ActionResult<List<GetTestResponse>>> GetTestAsync()
         {
             try
             {
                 var tests = await _testServices.GetAllTestAsync();
 
-                var response = tests.Select(t => new GetAllTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
+                var response = tests.Select(t => new GetTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
 
                 return Ok(response);
             }
@@ -39,13 +40,13 @@ namespace DrivingSchool.API.Controllers
 
         [HttpGet]
         [Route("getCategoryTests")]
-        public async Task<ActionResult<List<GetAllTestResponse>>> GetCategoryTestsAsync(Guid idCategory)
+        public async Task<ActionResult<List<GetTestResponse>>> GetCategoryTestsAsync(Guid idCategory)
         {
             try
             {
                 var tests = await _testServices.GetCategoryTestsAsync(idCategory);
 
-                var response = tests.Select(t => new GetAllTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
+                var response = tests.Select(t => new GetTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
 
                 return Ok(response);
             }
@@ -82,13 +83,17 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateTestAsync(Guid id, [FromBody] TestRequest testRequest)
+        public async Task<ActionResult<GetTestResponse>> UpdateTestAsync(Guid id, [FromBody] TestRequest testRequest)
         {
             try
             {
-                var testId = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
+                Console.WriteLine(testRequest.IdCategory);
+                Console.WriteLine(testRequest.NameTest);
+                var test = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
 
-                return Ok(testId);
+                var response = new GetTestResponse(test.Id, test.Category.NameCategory, test.NameTest);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
