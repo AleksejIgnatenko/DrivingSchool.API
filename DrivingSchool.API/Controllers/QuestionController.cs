@@ -1,6 +1,4 @@
-﻿using DrivingSchool.API.Contracts.CategoryContracts;
-using DrivingSchool.API.Contracts.QuestionContracts;
-using DrivingSchool.API.Contracts.TestContracts;
+﻿using DrivingSchool.API.Contracts.QuestionContracts;
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
@@ -22,6 +20,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Route("getAllQuestions")]
         public async Task<ActionResult<List<QuestionResponse>>> GetQuestionAsync()
         {
             try

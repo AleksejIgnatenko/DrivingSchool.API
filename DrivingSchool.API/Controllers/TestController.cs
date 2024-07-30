@@ -87,8 +87,6 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                Console.WriteLine(testRequest.IdCategory);
-                Console.WriteLine(testRequest.NameTest);
                 var test = await _testServices.UpdateTestAsync(id, testRequest.IdCategory, testRequest.NameTest);
 
                 var response = new GetTestResponse(test.Id, test.Category.NameCategory, test.NameTest);
