@@ -62,12 +62,13 @@ namespace DrivingSchool.API.Controllers
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<CategoryResponse>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
         {
-            Console.WriteLine(id);
             try
             {
-                var categoryId = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
+                var category = await _categoryServices.UpdateCategoryAsync(id, categoryRequest.NameCategory);
 
-                return Ok(categoryId);
+                var response = new CategoryResponse(category.Id, category.NameCategory);
+
+                return Ok(response);
             }
             catch (Exception ex)
             {
