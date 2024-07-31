@@ -70,13 +70,15 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<Guid>> UpdateQuestionAsync(Guid id, [FromBody] QuestionRequest questionRequest)
+        public async Task<ActionResult<QuestionResponse>> UpdateQuestionAsync(Guid id, [FromBody] QuestionRequest questionRequest)
         {
             try
             {
-                var questionId = await _questionServices.UpdateQuestionAsync(id, questionRequest.IdTest, questionRequest.QuestionText, questionRequest.LinkPhoto, questionRequest.Answer1, questionRequest.Answer2, questionRequest.Answer3, questionRequest.Answer4, questionRequest.CorrectAnswer);
+                var question = await _questionServices.UpdateQuestionAsync(id, questionRequest.IdTest, questionRequest.QuestionText, questionRequest.LinkPhoto, questionRequest.Answer1, questionRequest.Answer2, questionRequest.Answer3, questionRequest.Answer4, questionRequest.CorrectAnswer);
+                var response = new QuestionResponse(question.Id, question.Test.NameTest, question.QuestionText, question.LinkPhoto,
+                    question.Answer1, question.Answer2, question.Answer3, question.Answer4, question.CorrectAnswer);
 
-                return Ok(questionId);
+                return Ok(response);
             }
             catch (Exception ex)
             {

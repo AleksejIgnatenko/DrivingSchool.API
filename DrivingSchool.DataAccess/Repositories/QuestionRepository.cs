@@ -86,7 +86,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return null;
         }
 
-        public async Task<Guid> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
+        public async Task<QuestionModel> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
             var questionEntity = await _context.Questions.FindAsync(id);
             var testEntity = await _context.Tests.FindAsync(testId);
@@ -104,7 +104,12 @@ namespace DrivingSchool.DataAccess.Repositories
 
                 await _context.SaveChangesAsync();
 
-                return id;
+                QuestionModel question = QuestionModel.Create(questionEntity.Id,
+                        TestModel.Create(questionEntity.Test.Id, questionEntity.Test.NameTest).test,
+                    questionEntity.QuestionText, questionEntity.LinkPhoto, questionEntity.Answer1,
+                    questionEntity.Answer2, questionEntity.Answer3, questionEntity.Answer4, questionEntity.CorrectAnswer).question;
+
+                return question;
             }
 
             throw new Exception("Error for update test");

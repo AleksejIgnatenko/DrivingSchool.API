@@ -1,7 +1,7 @@
 ﻿namespace DrivingSchool.API.Contracts.QuestionContracts
 {
     public record QuestionResponse(
-        Guid IdQuestion,
+        Guid Id,
         string? NameTest,
         string? QuestionText,
         string? LinkPhoto,

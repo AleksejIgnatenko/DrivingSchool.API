@@ -29,7 +29,7 @@ namespace DrivingSchool.BusinessLogic.QuestionServices
         }
 
 
-        public async Task<Guid> UpdateQuestionAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
+        public async Task<QuestionModel> UpdateQuestionAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
             return await _questionRepository.UpdateAsync(id, testId, questionText, linkPhoto, answer1, answer2, answer3, answer4, correctAnswer);
         }
