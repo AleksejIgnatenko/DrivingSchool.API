@@ -1,10 +1,5 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DrivingSchool.BusinessLogic.QuestionServices
 {
@@ -22,6 +17,10 @@ namespace DrivingSchool.BusinessLogic.QuestionServices
             return await _questionRepository.GetAsync();
         }
 
+        public async Task<List<QuestionModel>> GetTestQuestionsAsync(Guid testId)
+        {
+            return await _questionRepository.GetTestQuestionsAsync(testId);
+        }
 
         public async Task<Guid> CreateQuestionAsync(QuestionModel question)
         {

@@ -1,4 +1,5 @@
 ﻿using DrivingSchool.API.Contracts.QuestionContracts;
+using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
@@ -34,6 +35,32 @@ namespace DrivingSchool.API.Controllers
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("getTestQuestions")]
+        public async Task<ActionResult<List<QuestionResponse>>> GetTestQuestions(Guid idTest)
+        {
+            try
+            {
+                var questions = await _questionServices.GetTestQuestionsAsync(idTest);
+
+                var response = questions.Select(q => new QuestionResponse(q.Id,
+                                                                          q.Test.NameTest,
+                                                                          q.QuestionText,
+                                                                          q.LinkPhoto,
+                                                                          q.Answer1,
+                                                                          q.Answer2,
+                                                                          q.Answer3,
+                                                                          q.Answer4,
+                                                                          q.CorrectAnswer));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
             }
         }
 
