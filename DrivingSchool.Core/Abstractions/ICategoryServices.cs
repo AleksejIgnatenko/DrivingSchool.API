@@ -8,6 +8,7 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
         Task<Guid> DeleteCategoryAsync(Guid idCategory);
         Task<List<CategoryModel>> GetAllCategoryAsync();
         Task<CategoryModel> GetCategoryByIdAsync(Guid idCategory);
+        Task<List<QuestionModel>> GetCategoryTest(Guid idCategory);
         Task<CategoryModel> UpdateCategoryAsync(Guid idCategory, string? nameCategory);
     }
 }

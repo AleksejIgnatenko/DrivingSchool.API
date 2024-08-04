@@ -105,7 +105,29 @@ namespace DrivingSchool.DataAccess.Repositories
             }
 
             throw new Exception("The test has no questions");
+        }
 
+        public async Task<List<QuestionModel>> GetRandomTestQuestions(Guid idTest)
+        {
+            var questionEntity = await _context.Questions
+                .AsNoTracking()
+                .Include(q => q.Test)
+                .Where(q => q.Test.Id == idTest)
+                .OrderBy(x => Guid.NewGuid())
+                .Take(10)
+                .ToListAsync();
+
+            if (questionEntity != null)
+            {
+                var questions = questionEntity
+                    .Select(q => QuestionModel.Create(q.Id,
+                        TestModel.Create(q.Test.Id, q.Test.NameTest).test,
+                    q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer).question).ToList();
+
+                return questions;
+            }
+
+            throw new Exception("The test has no questions");
         }
 
         public async Task<QuestionModel> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)

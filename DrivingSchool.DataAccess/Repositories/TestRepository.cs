@@ -75,6 +75,18 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Error search by id");
         }
 
+        public async Task<Guid> GetRandomCategoryTest(Guid idCategory)
+        {
+            var randomTestId = await _context.Tests
+                .AsNoTracking()
+                .Where(t => t.Category.Id == idCategory)
+                .Select(t => t.Id)
+                .OrderBy(x => Guid.NewGuid())
+                .FirstOrDefaultAsync();
+
+            return randomTestId;
+        }
+
         public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)
         {
             var testsEntities = await _context.Tests

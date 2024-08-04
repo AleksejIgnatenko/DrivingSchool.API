@@ -6,10 +6,16 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
     public class CategoryServices : ICategoryServices
     {
         private readonly ICategoryRepository _categoryRepository;
+        private readonly ITestRepository _testRepository;
+        private readonly IQuestionRepository _questionRepository;
 
-        public CategoryServices(ICategoryRepository categoryRepository)
+        public CategoryServices(ICategoryRepository categoryRepository,
+            ITestRepository testRepository,
+            IQuestionRepository questionRepository)
         {
             this._categoryRepository = categoryRepository;
+            this._testRepository = testRepository;
+            this._questionRepository = questionRepository;
         }
 
         public async Task<List<CategoryModel>> GetAllCategoryAsync()
@@ -20,6 +26,14 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
         public async Task<CategoryModel> GetCategoryByIdAsync(Guid idCategory)
         {
             return await _categoryRepository.GetByIdAsync(idCategory);
+        }
+
+        public async Task<List<QuestionModel>> GetCategoryTest(Guid idCategory)
+        {
+            var randomTestId = await _testRepository.GetRandomCategoryTest(idCategory);
+            var questions = await _questionRepository.GetRandomTestQuestions(randomTestId);
+
+            return questions;
         }
 
         public async Task<Guid> CreateCategoryAsync(CategoryModel category)
