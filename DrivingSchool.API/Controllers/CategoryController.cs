@@ -1,5 +1,6 @@
 ﻿using DrivingSchool.API.Contracts.CategoryContracts;
 using DrivingSchool.API.Contracts.QuestionContracts;
+using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -33,25 +34,6 @@ namespace DrivingSchool.API.Controllers
             { 
                 return StatusCode(500, ex); 
             }
-        }
-
-        [HttpGet]
-        [Route("getCategoryTest")]
-        public async Task<ActionResult<List<QuestionResponse>>> GetCategoryTest(Guid idCategory)
-        {
-            var questions = await _categoryServices.GetCategoryTest(idCategory);
-
-            var response = questions.Select(q => new QuestionResponse(q.Id,
-                                                                      q.Test.NameTest,
-                                                                      q.QuestionText,
-                                                                      q.LinkPhoto,
-                                                                      q.Answer1,
-                                                                      q.Answer2,
-                                                                      q.Answer3,
-                                                                      q.Answer4,
-                                                                      q.CorrectAnswer));
-
-            return Ok(response);
         }
 
         [HttpPost]

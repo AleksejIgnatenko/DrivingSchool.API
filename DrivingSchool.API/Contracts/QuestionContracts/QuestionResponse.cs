@@ -10,5 +10,5 @@
         string? Answer3,
         string? Answer4,
         string? CorrectAnswer
-        );
+    );
 }

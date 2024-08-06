@@ -1,5 +1,4 @@
-﻿
-namespace DrivingSchool.Core.Models
+﻿namespace DrivingSchool.Core.Models
 {
 	public class TestModel
 	{
@@ -20,13 +19,18 @@ namespace DrivingSchool.Core.Models
             Category = category;
         }
 
+        private TestModel(Guid id, List<QuestionModel>? questions, string? nameTest) : this(id, nameTest)
+        {
+            Questions = questions;
+        }
+
         private TestModel(Guid id, CategoryModel? category, List<QuestionModel> questions, string? nameTest) : this(id, category, nameTest)
         {
 			Questions = questions;
         }
 
         public static (TestModel test, string error) Create(Guid id, string? nameTest)
-        {
+       {
             string error = string.Empty;
             TestModel test = new TestModel(id, nameTest);
             return (test, error);
@@ -36,6 +40,13 @@ namespace DrivingSchool.Core.Models
         {
             string error = string.Empty;
             TestModel test = new TestModel(id, category, nameTest);
+            return (test, error);
+        }
+
+        public static (TestModel test, string error) Create(Guid id, List<QuestionModel>? questions, string? nameTest)
+        {
+            string error = string.Empty;
+            TestModel test = new TestModel(id, questions, nameTest);
             return (test, error);
         }
 

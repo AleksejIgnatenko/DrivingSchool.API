@@ -28,12 +28,9 @@ namespace DrivingSchool.BusinessLogic.CategoryServices
             return await _categoryRepository.GetByIdAsync(idCategory);
         }
 
-        public async Task<List<QuestionModel>> GetCategoryTest(Guid idCategory)
+        public async Task<TestModel> GetCategoryTest(Guid idCategory)
         {
-            var randomTestId = await _testRepository.GetRandomCategoryTest(idCategory);
-            var questions = await _questionRepository.GetRandomTestQuestions(randomTestId);
-
-            return questions;
+            return await _testRepository.GetRandomCategoryTest(idCategory);
         }
 
         public async Task<Guid> CreateCategoryAsync(CategoryModel category)

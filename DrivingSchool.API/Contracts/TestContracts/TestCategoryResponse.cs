@@ -2,10 +2,9 @@
 
 namespace DrivingSchool.API.Contracts.TestContracts
 {
-    public record TestResponse(
+    public record TestCategoryResponse(
         Guid IdTest,
-        string? NameCategory,
         string? NameTest,
         List<QuestionResponse> Questions
-        );
+    );
 }

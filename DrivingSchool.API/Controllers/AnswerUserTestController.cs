@@ -47,7 +47,7 @@ namespace DrivingSchool.API.Controllers
             {
                 var (answer, error) = AnswerUserTestModel.Create(
                     Guid.NewGuid(),
-                    await _usersServices.GetUsersByIdAsync(answerUserTestRequest.UserId),
+                    await _usersServices.GetUsersByIdAsync(Request.Headers["Authorization"].ToString().Replace("Bearer ", "")),
                     await _testServices.GetTestById(answerUserTestRequest.TestId),
                     answerUserTestRequest.ResultTest
                 );
@@ -72,7 +72,8 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var answerUserTestId = await _answerUserTestServices.UpdateAnswerUserTestAsync(id, answerUserTestRequest.UserId, answerUserTestRequest.TestId, answerUserTestRequest.ResultTest);
+                var user = await _usersServices.GetUsersByIdAsync(Request.Headers["Authorization"].ToString().Replace("Bearer ", ""));
+                var answerUserTestId = await _answerUserTestServices.UpdateAnswerUserTestAsync(id, user.Id, answerUserTestRequest.TestId, answerUserTestRequest.ResultTest);
 
                 return Ok(answerUserTestId);
             }

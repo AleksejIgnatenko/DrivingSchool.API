@@ -1,4 +1,5 @@
-﻿using DrivingSchool.API.Contracts.TestContracts;
+﻿using DrivingSchool.API.Contracts.QuestionContracts;
+using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
@@ -47,6 +48,33 @@ namespace DrivingSchool.API.Controllers
                 var tests = await _testServices.GetCategoryTestsAsync(idCategory);
 
                 var response = tests.Select(t => new GetTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
+
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+        }
+
+        [HttpGet]
+        [Route("getCategoryTest")]
+        public async Task<ActionResult<List<TestResponse>>> GetCategoryTest(Guid idCategory)
+        {
+            try
+            {
+                var test = await _categoryServices.GetCategoryTest(idCategory);
+
+                var response = new TestCategoryResponse(test.Id, test.NameTest, test.Questions.Select(q => new QuestionResponse(q.Id,
+                                                                                                                                test.NameTest,
+                                                                                                                                q.QuestionText,
+                                                                                                                                q.LinkPhoto,
+                                                                                                                                q.Answer1,
+                                                                                                                                q.Answer2,
+                                                                                                                                q.Answer3,
+                                                                                                                                q.Answer4,
+                                                                                                                                q.CorrectAnswer)).ToList()
+                );
 
                 return Ok(response);
             }

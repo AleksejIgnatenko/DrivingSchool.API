@@ -32,7 +32,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
 
         public async Task<UserModel> GetUsersByIdAsync(string jwtToken)
         {
-            var userId = _jwtProvider.GetIdFromToken(jwtToken);
+            var userId = _jwtProvider.GetUserIdFromToken(jwtToken);
 
             return await _usersRepository.GetByIdAsync(userId);
         }

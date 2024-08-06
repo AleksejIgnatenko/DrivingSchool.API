@@ -55,7 +55,17 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToListAsync();
 
             var tests = testEntity
-                .Select(t => TestModel.Create(t.Id, (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), t.Questions.Select(q => QuestionModel.Create(q.Id, q.QuestionText, q.LinkPhoto, q.Answer1, q.Answer2, q.Answer3, q.Answer4, q.CorrectAnswer).question).ToList(), t.NameTest).test)
+                .Select(t => TestModel.Create(t.Id, 
+                                (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), 
+                        t.Questions.Select(q => QuestionModel.Create(q.Id, 
+                                                                     q.QuestionText, 
+                                                                     q.LinkPhoto, 
+                                                                     q.Answer1, 
+                                                                     q.Answer2, 
+                                                                     q.Answer3, 
+                                                                     q.Answer4, 
+                                                                     q.CorrectAnswer).question).ToList(), 
+                        t.NameTest).test)
                 .ToList();
 
             return tests;
@@ -75,16 +85,35 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Error search by id");
         }
 
-        public async Task<Guid> GetRandomCategoryTest(Guid idCategory)
+        public async Task<TestModel> GetRandomCategoryTest(Guid idCategory)
         {
-            var randomTestId = await _context.Tests
+            var randomTest = await _context.Tests
                 .AsNoTracking()
+                .Include(t => t.Questions)
                 .Where(t => t.Category.Id == idCategory)
-                .Select(t => t.Id)
                 .OrderBy(x => Guid.NewGuid())
                 .FirstOrDefaultAsync();
 
-            return randomTestId;
+            if (randomTest != null)
+            {
+                randomTest.Questions = randomTest.Questions?.OrderBy(x => Guid.NewGuid()).Take(10).ToList();
+
+                var test = TestModel.Create(randomTest.Id,
+                                                randomTest.Questions.Select(q => QuestionModel.Create(q.Id,
+                                                                                                      q.QuestionText,
+                                                                                                      q.LinkPhoto,
+                                                                                                      q.Answer1,
+                                                                                                      q.Answer2,
+                                                                                                      q.Answer3,
+                                                                                                      q.Answer4,
+                                                                                                      q.CorrectAnswer).question).ToList(),
+                                            randomTest.NameTest).test;
+
+                return test;
+            }
+
+            throw new Exception("Error receiving the category test");
+
         }
 
         public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)

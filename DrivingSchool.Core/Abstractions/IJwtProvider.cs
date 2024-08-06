@@ -5,6 +5,6 @@ namespace DrivingSchool.Infrastructure
     public interface IJwtProvider
     {
         string GenerateToken(UserModel user);
-        Guid GetIdFromToken(string jwtToken);
+        Guid GetUserIdFromToken(string jwtToken);
     }
 }

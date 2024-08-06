@@ -30,7 +30,7 @@ namespace DrivingSchool.Infrastructure
             return tokenValue;
         }
 
-        public Guid GetIdFromToken(string jwtToken)
+        public Guid GetUserIdFromToken(string jwtToken)
         {
             // Разбор JWT-токена для извлечения идентификатора пользователя
             var tokenHandler = new JwtSecurityTokenHandler();
