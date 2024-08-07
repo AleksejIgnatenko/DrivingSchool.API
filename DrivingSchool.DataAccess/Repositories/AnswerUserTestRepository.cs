@@ -1,5 +1,4 @@
 ﻿
-
 using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;

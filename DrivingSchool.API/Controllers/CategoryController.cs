@@ -1,8 +1,7 @@
 ﻿using DrivingSchool.API.Contracts.CategoryContracts;
-using DrivingSchool.API.Contracts.QuestionContracts;
-using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchool.API.Controllers
@@ -37,6 +36,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateCategoryAsync([FromBody] CategoryRequest categoryRequest)
         {
             try
@@ -62,6 +62,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<CategoryResponse>> UpdateCategoryAsync(Guid id, [FromBody] CategoryRequest categoryRequest)
         {
             try
@@ -79,6 +80,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> DeleteCategoryAsync(Guid id)
         {
             try

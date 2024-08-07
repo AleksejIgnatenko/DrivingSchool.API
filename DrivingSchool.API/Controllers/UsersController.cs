@@ -71,8 +71,8 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        [Route("isAdminOrModerator")]
         [Authorize(Roles = "Admin,Moderator")]
+        [Route("isAdminOrModerator")]
         public async Task<ActionResult> IsAdmin()
         {
             try
@@ -119,7 +119,7 @@ namespace DrivingSchool.API.Controllers
         {
             try
             {
-                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.Admin);
+                var error = await _usersServices.RegisterUserAsync(usersRequest.UserName, usersRequest.Email, usersRequest.Password, RoleEnum.User);
                 if (!string.IsNullOrEmpty(error))
                 {
                     return BadRequest(error);

@@ -55,16 +55,16 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ToListAsync();
 
             var tests = testEntity
-                .Select(t => TestModel.Create(t.Id, 
-                                (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category), 
-                        t.Questions.Select(q => QuestionModel.Create(q.Id, 
-                                                                     q.QuestionText, 
-                                                                     q.LinkPhoto, 
-                                                                     q.Answer1, 
-                                                                     q.Answer2, 
-                                                                     q.Answer3, 
-                                                                     q.Answer4, 
-                                                                     q.CorrectAnswer).question).ToList(), 
+                .Select(t => TestModel.Create(t.Id,
+                                (CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category),
+                        t.Questions.Select(q => QuestionModel.Create(q.Id,
+                                                                     q.QuestionText,
+                                                                     q.LinkPhoto,
+                                                                     q.Answer1,
+                                                                     q.Answer2,
+                                                                     q.Answer3,
+                                                                     q.Answer4,
+                                                                     q.CorrectAnswer).question).ToList(),
                         t.NameTest).test)
                 .ToList();
 
@@ -85,12 +85,32 @@ namespace DrivingSchool.DataAccess.Repositories
             throw new Exception("Error search by id");
         }
 
+        public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)
+        {
+            var testsEntities = await _context.Tests
+                .AsNoTracking()
+                .Include(t => t.Category)
+                .Where(t => t.Category.Id == idCategory)
+                .ToListAsync();
+
+            if (testsEntities != null)
+            {
+                var tests = testsEntities
+                    .Select(t => TestModel.Create(t.Id, CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category, t.NameTest).test)
+                    .ToList();
+
+                return tests;
+            }
+
+            throw new Exception();
+        }
+
         public async Task<TestModel> GetRandomCategoryTest(Guid idCategory)
         {
             var randomTest = await _context.Tests
                 .AsNoTracking()
                 .Include(t => t.Questions)
-                .Where(t => t.Category.Id == idCategory)
+                .Where(t => t.Category.Id == idCategory && t.Questions.Count >= 10)
                 .OrderBy(x => Guid.NewGuid())
                 .FirstOrDefaultAsync();
 
@@ -113,27 +133,6 @@ namespace DrivingSchool.DataAccess.Repositories
             }
 
             throw new Exception("Error receiving the category test");
-
-        }
-
-        public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)
-        {
-            var testsEntities = await _context.Tests
-                .AsNoTracking()
-                .Include(t => t.Category)
-                .Where(t => t.Category.Id == idCategory)
-                .ToListAsync();
-
-            if(testsEntities != null)
-            {
-                var tests = testsEntities
-                    .Select(t => TestModel.Create(t.Id, CategoryModel.Create(t.Category.Id, t.Category.NameCategory).category, t.NameTest).test)
-                    .ToList();
-
-                return tests;
-            }
-
-            throw new Exception();
         }
 
         public async Task<TestModel> UpdateAsync(Guid id, Guid categoryId, string? nameTest)
@@ -149,8 +148,8 @@ namespace DrivingSchool.DataAccess.Repositories
                 await _context.SaveChangesAsync();
 
                 var test = TestModel.Create(
-                    testEntity.Id, 
-                        CategoryModel.Create(testEntity.Category.Id, testEntity.Category.NameCategory).category, 
+                    testEntity.Id,
+                        CategoryModel.Create(testEntity.Category.Id, testEntity.Category.NameCategory).category,
                     testEntity.NameTest).test;
 
                 return test;

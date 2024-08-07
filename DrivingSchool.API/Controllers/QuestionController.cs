@@ -3,6 +3,7 @@ using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DrivingSchool.API.Controllers
@@ -21,6 +22,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getAllQuestions")]
         public async Task<ActionResult<List<QuestionResponse>>> GetQuestionAsync()
         {
@@ -39,6 +41,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getTestQuestions")]
         public async Task<ActionResult<List<QuestionResponse>>> GetTestQuestions(Guid idTest)
         {
@@ -65,6 +68,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateQuestionAsync([FromBody] QuestionRequest questionRequest)
         {
             try
@@ -97,6 +101,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<QuestionResponse>> UpdateQuestionAsync(Guid id, [FromBody] QuestionRequest questionRequest)
         {
             try
@@ -114,6 +119,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> DeleteQuestionAsync(Guid id)
         {
             try

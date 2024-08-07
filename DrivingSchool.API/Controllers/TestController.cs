@@ -3,6 +3,7 @@ using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -22,6 +23,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getAllTests")]
         public async Task<ActionResult<List<GetTestResponse>>> GetTestAsync()
         {
@@ -40,6 +42,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getCategoryTests")]
         public async Task<ActionResult<List<GetTestResponse>>> GetCategoryTestsAsync(Guid idCategory)
         {
@@ -58,6 +61,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("getCategoryTest")]
         public async Task<ActionResult<List<TestResponse>>> GetCategoryTest(Guid idCategory)
         {
@@ -85,6 +89,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateTestAsync([FromBody] TestRequest testRequest)
         {
             try
@@ -111,6 +116,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<GetTestResponse>> UpdateTestAsync(Guid id, [FromBody] TestRequest testRequest)
         {
             try
@@ -128,6 +134,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> DeleteTestAsync(Guid id)
         {
             try

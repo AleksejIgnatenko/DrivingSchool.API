@@ -3,8 +3,8 @@ using DrivingSchool.BusinessLogic.AnswerUserTestServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace DrivingSchool.API.Controllers
 {
@@ -24,6 +24,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<List<AnswerUserTestResponse>>> GetAnswerUserTestAsync()
         {
             try
@@ -41,6 +42,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Guid>> CreateAnswerUserTestAsync([FromBody] AnswerUserTestRequest answerUserTestRequest)
         {
             try

@@ -22,19 +22,19 @@ namespace DrivingSchool.BusinessLogic.UserServices
 
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            return await _usersRepository.GetAsync();
+            return await _usersRepository.GetUserAsync();
         }
 
         public async Task<UserModel> GetUsersByIdAsync(Guid userId)
         {
-            return await _usersRepository.GetByIdAsync(userId);
+            return await _usersRepository.GetUserByIdAsync(userId);
         }
 
         public async Task<UserModel> GetUsersByIdAsync(string jwtToken)
         {
             var userId = _jwtProvider.GetUserIdFromToken(jwtToken);
 
-            return await _usersRepository.GetByIdAsync(userId);
+            return await _usersRepository.GetUserByIdAsync(userId);
         }
 
         public async Task<Guid> CreateUserAsync(UserModel user)

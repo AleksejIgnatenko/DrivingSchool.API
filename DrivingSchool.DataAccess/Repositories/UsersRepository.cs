@@ -30,7 +30,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return userEntity.Id;
         }
 
-        public async Task<List<UserModel>> GetAsync()
+        public async Task<List<UserModel>> GetUserAsync()
         {
             var usersEntities = await _context.Users
                 .AsNoTracking()
@@ -56,7 +56,7 @@ namespace DrivingSchool.DataAccess.Repositories
             return users;
         }
 
-        public async Task<UserModel> GetByIdAsync(Guid id)
+        public async Task<UserModel> GetUserByIdAsync(Guid id)
         {
             var usersEntities = await _context.Users
                 .Include(u => u.AnswerUserTests)
@@ -68,11 +68,16 @@ namespace DrivingSchool.DataAccess.Repositories
                 .Select(a => AnswerUserTestModel.Create(a.Id,
                     TestModel.Create(a.Test.Id,  
                         CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
-                    a.Test.NameTest).test, a.ResultTest).answer).ToList(), 
+                    a.Test.NameTest).test, a.ResultTest).answer).TakeLast(5).ToList(), 
                 usersEntities.UserName, 
                 usersEntities.Email,
                 usersEntities.Password, 
                 usersEntities.Role).user;
+
+            foreach(var answer in usersEntities.AnswerUserTests)
+            {
+                Console.WriteLine(answer);
+            }
 
             return user;
         }
