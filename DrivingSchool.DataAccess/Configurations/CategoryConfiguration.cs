@@ -8,10 +8,14 @@ namespace DrivingSchool.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<CategoryEntity> builder)
         {
+            builder.HasMany(с => с.Tests)
+                .WithOne(t => t.Category)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasKey(c => c.Id);
 
             builder.Property(c => c.NameCategory)
-                    .IsRequired();
+                .IsRequired();
         }
     }
 }

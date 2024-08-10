@@ -8,6 +8,10 @@ namespace DrivingSchool.DataAccess.Configurations
     {
         public void Configure(EntityTypeBuilder<QuestionEntity> builder)
         {
+            builder.HasOne(q => q.Test)
+                .WithMany(t => t.Questions)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.HasKey(q => q.Id);
 
             builder.Property(q => q.QuestionText)
