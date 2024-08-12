@@ -1,5 +1,4 @@
-﻿
-namespace DrivingSchool.DataAccess.Entities
+﻿namespace DrivingSchool.DataAccess.Entities
 {
     public class CategoryEntity
     {

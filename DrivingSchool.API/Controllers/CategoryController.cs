@@ -36,7 +36,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Moderator")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateCategoryAsync([FromBody] CategoryRequest categoryRequest)
         {
             try
