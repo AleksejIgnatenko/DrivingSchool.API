@@ -22,6 +22,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(nameof(JwtOptions)));
 
 var jwtOptions = builder.Configuration.GetSection(nameof(JwtOptions)).Get<JwtOptions>();
+
+// Add JWT bearer authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
     {
@@ -31,7 +33,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.SecretKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions?.SecretKey ?? "secretkeysecretkeysecretkeysecretkeysecretkeysecretkeysecretkey"))
         };
 
         options.Events = new JwtBearerEvents
@@ -39,7 +41,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             OnMessageReceived = context =>
             {
                 context.Token = context.Request.Cookies["test-cookies"];
-
                 return Task.CompletedTask;
             }
         };
@@ -49,7 +50,15 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddDbContext<DrivingSchoolDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+        
+        sqlServerOptionsAction: sqlOptions =>
+        {
+            sqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 10,
+                maxRetryDelay: TimeSpan.FromSeconds(5),
+                errorNumbersToAdd: null);
+        });
 });
 
 builder.Services.AddScoped<IUsersServices, UsersServices>();
@@ -73,13 +82,16 @@ builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+/*if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+}*/
 
-app.UseHttpsRedirection();
+app.UseSwagger();
+app.UseSwaggerUI();
+
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();

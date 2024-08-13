@@ -22,6 +22,7 @@ namespace DrivingSchool.DataAccess
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new TestConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
+            modelBuilder.ApplyConfiguration(new AnswerUserTestConfiguration());
         }
     }
 }

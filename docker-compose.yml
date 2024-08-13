@@ -1,0 +1,27 @@
+﻿version: '3'
+networks:
+  driving-school-api:
+    driver: bridge
+
+services:
+  driving-school-api:
+    build:
+      context: .
+      dockerfile: ./DrivingSchool.API/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - driving-school-api
+    environment:
+      - DB_CONNECTION_STRING=Server=localhost,1433;Database=DrivingSchoolDB;User Id=sa;Password=Password12345;Encrypt=false;
+
+  mssql-server:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Password12345"
+      MSSQL_PID: Express
+    ports:
+      - "1433:1433"
+    networks:
+      - driving-school-api
