@@ -1,6 +1,8 @@
 ﻿using DrivingSchool.DataAccess.Configurations;
 using DrivingSchool.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace DrivingSchool.DataAccess
 {
@@ -14,6 +16,21 @@ namespace DrivingSchool.DataAccess
 
         public DrivingSchoolDbContext(DbContextOptions<DrivingSchoolDbContext> options) : base(options)
         {
+            var dbCreater = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
+            if (dbCreater != null)
+            {
+                // Create Database 
+                if (!dbCreater.CanConnect())
+                {
+                    dbCreater.Create();
+                }
+
+                // Create Tables
+                if (!dbCreater.HasTables())
+                {
+                    dbCreater.CreateTables();
+                }
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
