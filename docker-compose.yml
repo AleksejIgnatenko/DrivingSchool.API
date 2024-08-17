@@ -16,10 +16,21 @@ services:
   drivingschool.api:
     container_name: DrivingSchoolApiContainer
     image: ${DOCKER_REGISTRY-}drivingschoolapi
-    ports: 
+    ports:
       - 8080:8080
     build:
       context: .
       dockerfile: DrivingSchool.API/Dockerfile
     depends_on: 
       - SqlServerDb
+
+  drivingschool.frontend:
+    container_name: DrivingSchoolFrontendContainer
+    image: drivingschoolfrontend
+    ports:
+      - 3000:3000
+    build:
+      context: ../../frontend/drivingschool/
+      dockerfile: Dockerfile
+    depends_on:
+      - drivingschool.api
