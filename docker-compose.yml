@@ -32,5 +32,6 @@ services:
     build:
       context: ../../frontend/drivingschool/
       dockerfile: Dockerfile
-    depends_on:
-      - drivingschool.api
+
+  proxy:
+    image: nginx:mainline

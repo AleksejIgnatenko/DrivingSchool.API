@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DrivingSchool.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Users")]
     public class UsersController : ControllerBase
     {
         private readonly IUsersServices _usersServices;

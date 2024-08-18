@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DrivingSchool.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Category")]
     public class CategoryController : ControllerBase
     {
         private readonly ICategoryServices _categoryServices;
@@ -18,7 +18,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        //[Route("getAllCategory")]
+        [Route("getAllCategory")]
         public async Task<ActionResult<List<CategoryResponse>>> GetCategoryAsync()
         {
             try
