@@ -5,12 +5,11 @@ using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace DrivingSchool.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Test")]
     public class TestController : ControllerBase
     {
         private readonly ITestServices _testServices;

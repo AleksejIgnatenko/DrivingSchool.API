@@ -1,5 +1,4 @@
 ﻿using DrivingSchool.API.Contracts.QuestionContracts;
-using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
@@ -9,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DrivingSchool.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/Question")]
     public class QuestionController : ControllerBase
     {
         private readonly IQuestionServices _questionServices;

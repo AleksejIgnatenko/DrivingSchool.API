@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DrivingSchool.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/AnswerUserTest")]
     public class AnswerUserTestController : ControllerBase
     {
         private readonly IAnswerUserTestServices _answerUserTestServices;
