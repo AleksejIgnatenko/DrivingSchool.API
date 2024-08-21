@@ -1,5 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
@@ -55,7 +56,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 var category = CategoryModel.Create(categories.Id, categories.NameCategory).category;
                 return category;
             }
-            throw new Exception("Категория не найдена.");
+            throw new CustomException("Категория не найдена.");
         }
 
         public async Task<CategoryModel> UpdateAsync(Guid idCategory, string? nameCategory)
@@ -71,7 +72,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 var category = CategoryModel.Create(categoryEntity.Id, categoryEntity.NameCategory).category;
                 return category;
             }
-            throw new Exception();
+            throw new CustomException("Не удалось обновить категорию");
         }
 
         public async Task<Guid> DeleteAsync(Guid id)

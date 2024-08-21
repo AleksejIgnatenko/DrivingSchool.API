@@ -3,6 +3,7 @@ using DrivingSchool.API.Contracts.TestContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -22,7 +23,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        //[Authorize(Roles = "Admin,Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         [Route("getAllTests")]
         public async Task<ActionResult<List<GetTestResponse>>> GetTestAsync()
         {
@@ -52,6 +53,10 @@ namespace DrivingSchool.API.Controllers
                 var response = tests.Select(t => new GetTestResponse(t.Id, t.Category.NameCategory, t.NameTest));
 
                 return Ok(response);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -108,6 +113,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(testId);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
@@ -125,6 +134,10 @@ namespace DrivingSchool.API.Controllers
                 var response = new GetTestResponse(test.Id, test.Category.NameCategory, test.NameTest);
 
                 return Ok(response);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

@@ -1,6 +1,7 @@
 ﻿using DrivingSchool.API.Contracts.CategoryContracts;
 using DrivingSchool.BusinessLogic.CategoryServices;
 using DrivingSchool.Core.Models;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,6 +73,10 @@ namespace DrivingSchool.API.Controllers
                 var response = new CategoryResponse(category.Id, category.NameCategory);
 
                 return Ok(response);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

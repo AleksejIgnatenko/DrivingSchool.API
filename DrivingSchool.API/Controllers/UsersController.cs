@@ -2,6 +2,7 @@
 using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Enum;
 using DrivingSchool.Core.Models;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -64,6 +65,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(response);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -107,6 +112,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(userId);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -126,6 +135,10 @@ namespace DrivingSchool.API.Controllers
                 }
 
                 return Ok();
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -148,6 +161,10 @@ namespace DrivingSchool.API.Controllers
                 //Response.Cookies.Append("test-cookies", token);
 
                 return new JsonResult(token);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {
@@ -190,6 +207,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(response);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -216,6 +237,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(response);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex.Message);
@@ -240,6 +265,10 @@ namespace DrivingSchool.API.Controllers
                 );
 
                 return Ok(response);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

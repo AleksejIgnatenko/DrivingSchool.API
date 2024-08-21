@@ -1,5 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
@@ -18,32 +19,23 @@ namespace DrivingSchool.DataAccess.Repositories
             var existingCategory = await _context.Categories
                 .FirstOrDefaultAsync(c => c.Id == test.Category.Id);
 
-            CategoryEntity categoryEntity;
-
             if (existingCategory != null)
             {
-                categoryEntity = existingCategory;
-            }
-            else
-            {
-                categoryEntity = new CategoryEntity
+
+                TestEntity testEntity = new TestEntity
                 {
-                    Id = test.Category.Id,
-                    NameCategory = test.Category.NameCategory
+                    Id = test.Id,
+                    Category = existingCategory,
+                    NameTest = test.NameTest
                 };
+
+                await _context.Tests.AddAsync(testEntity);
+                await _context.SaveChangesAsync();
+
+                return testEntity.Id;
             }
 
-            TestEntity testEntity = new TestEntity
-            {
-                Id = test.Id,
-                Category = categoryEntity,
-                NameTest = test.NameTest
-            };
-
-            await _context.Tests.AddAsync(testEntity);
-            await _context.SaveChangesAsync();
-
-            return testEntity.Id;
+            throw new CustomException("Не удалось создать категорию");
         }
 
         public async Task<List<TestModel>> GetAsync()
@@ -82,7 +74,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return test;
             }
 
-            throw new Exception("Error search test by id");
+            throw new CustomException("Не удалось  найти запрашиваемый тест");
         }
 
         public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)
@@ -102,7 +94,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return tests;
             }
 
-            throw new Exception();
+            throw new CustomException("Не удалось получить тесты категории");
         }
 
         public async Task<TestModel> GetRandomCategoryTest(Guid idCategory)
@@ -132,7 +124,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return test;
             }
 
-            throw new Exception("Error receiving the category test");
+            throw new Exception("Не удалось получить тест категории");
         }
 
         public async Task<TestModel> UpdateAsync(Guid id, Guid categoryId, string? nameTest)
@@ -155,7 +147,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return test;
             }
 
-            throw new Exception("Error for update test");
+            throw new CustomException("Не удалось обновить тест");
         }
 
         public async Task<Guid> DeleteAsync(Guid id)

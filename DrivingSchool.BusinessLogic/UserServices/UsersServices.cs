@@ -22,7 +22,7 @@ namespace DrivingSchool.BusinessLogic.UserServices
 
         public async Task<List<UserModel>> GetAllUsersAsync()
         {
-            return await _usersRepository.GetUserAsync();
+            return await _usersRepository.GetUsersAsync();
         }
 
         public async Task<UserModel> GetUsersByIdAsync(Guid userId)

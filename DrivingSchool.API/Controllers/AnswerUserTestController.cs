@@ -3,6 +3,7 @@ using DrivingSchool.BusinessLogic.AnswerUserTestServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.BusinessLogic.UserServices;
 using DrivingSchool.Core.Models;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -63,6 +64,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(answerUserTestId);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
@@ -78,6 +83,10 @@ namespace DrivingSchool.API.Controllers
                 var answerUserTestId = await _answerUserTestServices.UpdateAnswerUserTestAsync(id, user.Id, answerUserTestRequest.TestId, answerUserTestRequest.ResultTest);
 
                 return Ok(answerUserTestId);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

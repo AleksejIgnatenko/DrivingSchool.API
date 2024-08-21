@@ -43,7 +43,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return question.Id;
             }
 
-            throw new QuestionCustomException("Вопрос с таким текстом существует или не существует соответствующий тест");
+            throw new CustomException("Вопрос с таким текстом уже существует или не существует соответствующий тест");
         }
 
         public async Task<List<QuestionModel>> GetAsync()
@@ -108,10 +108,10 @@ namespace DrivingSchool.DataAccess.Repositories
                 return questions;
             }
 
-            throw new Exception("The test has no questions");
+            throw new CustomException("The test has no questions");
         }
 
-        public async Task<List<QuestionModel>> GetRandomTestQuestions(Guid idTest)
+/*        public async Task<List<QuestionModel>> GetRandomTestQuestions(Guid idTest)
         {
             var questionEntity = await _context.Questions
                 .AsNoTracking()
@@ -131,8 +131,8 @@ namespace DrivingSchool.DataAccess.Repositories
                 return questions;
             }
 
-            throw new Exception("The test has no questions");
-        }
+            throw new CustomException("The test has no questions");
+        }*/
 
         public async Task<QuestionModel> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
@@ -160,7 +160,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return question;
             }
 
-            throw new Exception("Error for update test");
+            throw new CustomException("Error for update test");
         }
 
         public async Task<Guid> DeleteAsync(Guid id)

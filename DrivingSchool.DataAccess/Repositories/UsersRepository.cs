@@ -2,6 +2,7 @@
 using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
 using DrivingSchool.Infrastructure;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
@@ -20,22 +21,30 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<Guid> CreateAsync(UserModel user)
         {
-            var userEntity = new UserEntity
+            Console.WriteLine(user.Email);
+            var existingUser = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email == user.Email);
+
+            if (existingUser == null)
             {
-                Id = user.Id,
-                UserName = user.UserName,
-                Email = user.Email,
-                Password = _passwordHasher.Generate(user.Password),
-                Role = user.Role,
-            };
+                var userEntity = new UserEntity
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Password = _passwordHasher.Generate(user.Password),
+                    Role = user.Role,
+                };
 
-            await _context.Users.AddAsync(userEntity);
-            await _context.SaveChangesAsync();
+                await _context.Users.AddAsync(userEntity);
+                await _context.SaveChangesAsync();
 
-            return userEntity.Id;
+                return userEntity.Id;
+            }
+            throw new CustomException("Пользователь с такой почтой уже есть");
         }
 
-        public async Task<List<UserModel>> GetUserAsync()
+        public async Task<List<UserModel>> GetUsersAsync()
         {
             var usersEntities = await _context.Users
                 .AsNoTracking()
@@ -69,22 +78,22 @@ namespace DrivingSchool.DataAccess.Repositories
                 .ThenInclude(t => t.Category)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
-            var user = UserModel.Create(usersEntities.Id, usersEntities.AnswerUserTests
-                .Select(a => AnswerUserTestModel.Create(a.Id,
-                    TestModel.Create(a.Test.Id,  
-                        CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
-                    a.Test.NameTest).test, a.ResultTest).answer).TakeLast(5).ToList(), 
-                usersEntities.UserName, 
-                usersEntities.Email,
-                usersEntities.Password, 
-                usersEntities.Role).user;
-
-            foreach(var answer in usersEntities.AnswerUserTests)
+            if (usersEntities != null)
             {
-                Console.WriteLine(answer);
-            }
 
-            return user;
+                var user = UserModel.Create(usersEntities.Id, usersEntities.AnswerUserTests
+                    .Select(a => AnswerUserTestModel.Create(a.Id,
+                        TestModel.Create(a.Test.Id,
+                            CategoryModel.Create(a.Test.Category.Id, a.Test.Category.NameCategory).category,
+                        a.Test.NameTest).test, a.ResultTest).answer).TakeLast(5).ToList(),
+                    usersEntities.UserName,
+                    usersEntities.Email,
+                    usersEntities.Password,
+                    usersEntities.Role).user;
+
+                return user;
+            }
+            throw new CustomException("Не удалось найти пользователя");
         }
 
         public async Task<UserModel> GetByEmailAsync(string email)
@@ -93,9 +102,17 @@ namespace DrivingSchool.DataAccess.Repositories
                 .AsNoTracking()
                 .FirstOrDefaultAsync(u => u.Email == email) ?? throw new Exception();
 
-            var user = UserModel.Create(usersEntities.Id, usersEntities.UserName, usersEntities.Email, usersEntities.Password, usersEntities.Role).user;
+            if (usersEntities != null)
+            {
+                var user = UserModel.Create(usersEntities.Id,
+                    usersEntities.UserName,
+                    usersEntities.Email,
+                    usersEntities.Password,
+                    usersEntities.Role).user;
 
-            return user;
+                return user;
+            }
+            throw new CustomException("Не удалось найти пользователя");
         }
 
         public async Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role)
@@ -138,7 +155,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return user;
             }
 
-            throw new Exception("Ошибка выдачи роли Moderator");
+            throw new CustomException("Ошибка выдачи роли Moderator");
         }
 
         public async Task<UserModel> DeleteModerator(Guid idUser)
@@ -167,7 +184,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return user;
             }
 
-            throw new Exception("Ошибка удаления роли Moderator");
+            throw new CustomException("Ошибка удаления роли Moderator");
         }
 
         public async Task<UserModel> UserNameChange(Guid idUser, string newUserName)
@@ -196,7 +213,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return user;
             }
 
-            throw new Exception("Ошибка изменения имени пользователя");
+            throw new CustomException("Ошибка изменения имени пользователя");
         }
 
         public async Task<Guid> DeleteAsync(Guid idUser)

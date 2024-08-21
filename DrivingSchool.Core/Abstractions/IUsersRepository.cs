@@ -7,7 +7,7 @@ namespace DrivingSchool.DataAccess.Repositories
     {
         Task<Guid> CreateAsync(UserModel user);
         Task<Guid> DeleteAsync(Guid idUser);
-        Task<List<UserModel>> GetUserAsync();
+        Task<List<UserModel>> GetUsersAsync();
         Task<UserModel> GetByEmailAsync(string email);
         Task<UserModel> GetUserByIdAsync(Guid id);
         Task<Guid> UpdateAsync(Guid idUser, string username, string email, string password, RoleEnum role);

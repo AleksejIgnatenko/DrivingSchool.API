@@ -61,6 +61,10 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(response);
             }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
+            }
             catch (Exception ex)
             {
                 return StatusCode(500, ex);
@@ -68,7 +72,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin,Moderator")]
+        [Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateQuestionAsync([FromBody] QuestionRequest questionRequest)
         {
             try
@@ -94,7 +98,7 @@ namespace DrivingSchool.API.Controllers
 
                 return Ok(questionId);
             }
-            catch (QuestionCustomException ex)
+            catch (CustomException ex)
             {
                 return BadRequest(ex.Message);
             }
@@ -115,6 +119,10 @@ namespace DrivingSchool.API.Controllers
                     question.Answer1, question.Answer2, question.Answer3, question.Answer4, question.CorrectAnswer);
 
                 return Ok(response);
+            }
+            catch (CustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

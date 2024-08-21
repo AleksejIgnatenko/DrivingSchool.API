@@ -9,7 +9,7 @@ namespace DrivingSchool.DataAccess.Repositories
         Task<List<QuestionModel>> GetAsync();
         Task<QuestionModel> GetByIdAsync(Guid id);
         Task<List<QuestionModel>> GetTestQuestionsAsync(Guid idTest);
-        Task<List<QuestionModel>> GetRandomTestQuestions(Guid idTest);
+        //Task<List<QuestionModel>> GetRandomTestQuestions(Guid idTest);
         Task<QuestionModel> UpdateAsync(Guid id, Guid testId, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer);
     }
 }
