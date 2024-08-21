@@ -22,7 +22,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Admin,Moderator")]
+        //[Authorize(Roles = "Admin,Moderator")]
         [Route("getAllTests")]
         public async Task<ActionResult<List<GetTestResponse>>> GetTestAsync()
         {

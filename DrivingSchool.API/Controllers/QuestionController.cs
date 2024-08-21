@@ -2,6 +2,7 @@
 using DrivingSchool.BusinessLogic.QuestionServices;
 using DrivingSchool.BusinessLogic.TestServices;
 using DrivingSchool.Core.Models;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,7 +68,7 @@ namespace DrivingSchool.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin,Moderator")]
+        //[Authorize(Roles = "Admin,Moderator")]
         public async Task<ActionResult<Guid>> CreateQuestionAsync([FromBody] QuestionRequest questionRequest)
         {
             try
@@ -92,6 +93,10 @@ namespace DrivingSchool.API.Controllers
                 var questionId = await _questionServices.CreateQuestionAsync(question);
 
                 return Ok(questionId);
+            }
+            catch (QuestionCustomException ex)
+            {
+                return BadRequest(ex.Message);
             }
             catch (Exception ex)
             {

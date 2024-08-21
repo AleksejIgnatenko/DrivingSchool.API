@@ -16,6 +16,8 @@ namespace DrivingSchool.DataAccess.Repositories
 
         public async Task<Guid> CreateAsync(AnswerUserTestModel answerUserTestModel)
         {
+
+
             var userEntity = await _context.Users.FindAsync(answerUserTestModel.User.Id);
             var testEntity = await _context.Tests.FindAsync(answerUserTestModel.Test.Id);
 

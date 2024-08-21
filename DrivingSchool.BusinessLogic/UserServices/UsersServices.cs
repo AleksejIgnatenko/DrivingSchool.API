@@ -44,7 +44,9 @@ namespace DrivingSchool.BusinessLogic.UserServices
 
         public async Task<string> RegisterUserAsync(string userName, string email, string password, RoleEnum role)
         {
-            var (user, error) = UserModel.Create(Guid.NewGuid(), userName, email, _passwordHasher.Generate(password), role);
+            var (user, error) = UserModel.Create(Guid.NewGuid(), userName, email, password, role);
+
+            if(!string.IsNullOrEmpty(error)) { return error; }
 
             await _usersRepository.CreateAsync(user);
 

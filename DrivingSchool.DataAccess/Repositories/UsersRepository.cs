@@ -1,6 +1,7 @@
 ﻿using DrivingSchool.Core.Enum;
 using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
+using DrivingSchool.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
@@ -8,9 +9,13 @@ namespace DrivingSchool.DataAccess.Repositories
     public class UsersRepository : IUsersRepository
     {
         private readonly DrivingSchoolDbContext _context;
-        public UsersRepository(DrivingSchoolDbContext context)
+        private readonly IPasswordHasher _passwordHasher;
+
+        public UsersRepository(DrivingSchoolDbContext context,
+            IPasswordHasher passwordHasher)
         {
             _context = context;
+            _passwordHasher = passwordHasher;
         }
 
         public async Task<Guid> CreateAsync(UserModel user)
@@ -20,7 +25,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 Id = user.Id,
                 UserName = user.UserName,
                 Email = user.Email,
-                Password = user.Password,
+                Password = _passwordHasher.Generate(user.Password),
                 Role = user.Role,
             };
 

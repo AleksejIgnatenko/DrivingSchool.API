@@ -82,7 +82,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return test;
             }
 
-            throw new Exception("Error search by id");
+            throw new Exception("Error search test by id");
         }
 
         public async Task<List<TestModel>> GetCategoryTestsAsync(Guid idCategory)

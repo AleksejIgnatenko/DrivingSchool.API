@@ -1,5 +1,6 @@
 ﻿using DrivingSchool.Core.Models;
 using DrivingSchool.DataAccess.Entities;
+using DrivingSchool.Infrastructure.CustomException;
 using Microsoft.EntityFrameworkCore;
 
 namespace DrivingSchool.DataAccess.Repositories
@@ -18,7 +19,10 @@ namespace DrivingSchool.DataAccess.Repositories
             var existingTest = await _context.Tests
                 .FirstOrDefaultAsync(t => t.Id == question.Test.Id);
 
-            if (existingTest != null)
+            var existingQuestion = await _context.Questions
+                .FirstOrDefaultAsync(q => q.QuestionText == question.QuestionText);
+
+            if ((existingTest != null) && (existingQuestion == null))
             {
                 QuestionEntity questionEntity = new QuestionEntity
                 {
@@ -39,7 +43,7 @@ namespace DrivingSchool.DataAccess.Repositories
                 return question.Id;
             }
 
-            throw new Exception("Ошибка добавления вопрсоа");
+            throw new QuestionCustomException("Вопрос с таким текстом существует или не существует соответствующий тест");
         }
 
         public async Task<List<QuestionModel>> GetAsync()

@@ -29,8 +29,8 @@ namespace DrivingSchool.Core.Models
 
         public static (UserModel user, string error) Create(Guid idUser, string? userName, string? email, string? password, RoleEnum? role)
         {
-            string error = string.Empty;
             UserModel user = new UserModel(idUser, userName, email, password, role);
+            string error = UserValidation(user);
             return (user, error);
         }
 
@@ -39,6 +39,20 @@ namespace DrivingSchool.Core.Models
             string error = string.Empty;
             UserModel user = new UserModel(idUser, answers, userName, email, password, role);
             return (user, error);
+        }
+
+        private static string UserValidation(UserModel user)
+        {
+            string error = string.Empty;
+            if (user.UserName.Length < 2 )
+            {
+                error += "Длина имени должна быть больше 2 символов\n";
+            }
+            if(user.Password.Length < 7 )
+            {
+                error += "Длина пароля должна быть больше 7 символов";
+            }
+            return error;
         }
     }
 }

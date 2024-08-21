@@ -39,9 +39,22 @@
 
         public static (QuestionModel question, string error) Create(Guid id, TestModel? test, string? questionText, string? linkPhoto, string? answer1, string? answer2, string? answer3, string? answer4, string? correctAnswer)
         {
-            string error = string.Empty;
             QuestionModel question = new QuestionModel(id, test, questionText, linkPhoto, answer1, answer2, answer3, answer4, correctAnswer);
+            string error = QuestionValidation(question);
             return (question, error);
+        }
+
+        private static string QuestionValidation(QuestionModel question)
+        {
+            string error = string.Empty;
+            var answers = new[] {question.Answer1, question.Answer2, question.Answer3, question.Answer4};
+            var correctAnswer = answers.FirstOrDefault(a => a == question.CorrectAnswer);
+            if (string.IsNullOrEmpty(correctAnswer))
+            {
+                error += "Правильный ответ не указан в ответах";
+            }
+
+            return error;
         }
     }
 }

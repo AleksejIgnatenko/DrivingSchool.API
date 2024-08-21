@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DrivingSchool.Core\DrivingSchool.Core.csproj" />
+    <ProjectReference Include="..\DrivingSchool.Infrastructure\DrivingSchool.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
